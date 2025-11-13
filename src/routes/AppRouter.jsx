@@ -1,34 +1,14 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { AuthPage } from '../pages/AuthPage'
-import { AppointmentsPage } from '../pages/AppointmentsPage'
-import { ResetPassword } from '../pages/ResetPassword'
-import { Profile } from '../pages/Profile'
-import { useAuth } from '../context/AuthContext'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "../pages/Home";
 
-export const AppRouter = () => {
-  const { user, loading } = useAuth()
-
-  if (loading) return <p>Chargement...</p>
-
+const AppRouter = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route
-          path="/"
-          element={user ? <Navigate to="/appointments" /> : <Navigate to="/auth" />}
-        />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route
-          path="/appointments"
-          element={user ? <AppointmentsPage /> : <Navigate to="/auth" />}
-        />
-        <Route
-          path="/profile"
-          element={user? <Profile /> : <Navigate to="/" />}
-        />
-
-        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/" element={<Home />} />
       </Routes>
-    </BrowserRouter>
-  )
-}
+    </Router>
+  );
+};
+
+export default AppRouter;
