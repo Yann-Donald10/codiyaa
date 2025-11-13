@@ -1,13 +1,17 @@
 import Navbar from "../components/Navbar";
-//import HeroSection from "../components/HeroSection";
-//import About from "../components/About";
-//import Services from "../components/Services";
-//import Contact from "../components/Contact";
+import Overview from "../components/Overview";
+import About from "../components/About";
+import Services from "../components/services";
+import Contact from "../components/contact";
 
 const Home = () => {
   return (
     <>
       <Navbar />
+      <Overview />
+      <About />
+      <Services />
+      <Contact />
     </>
   );
 };
