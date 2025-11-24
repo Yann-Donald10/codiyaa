@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
 import logo from "../assets/images/logo-codiyaa.png";
 import pattern from "../assets/images/pattern-codiyaa.png";
@@ -12,6 +13,7 @@ import pattern from "../assets/images/pattern-codiyaa.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => {
@@ -52,10 +54,10 @@ const Navbar = () => {
 
         {/* Boutons à droite */}
         <div className="navbar-actions">
-          <button className="navbar-btn navbar-btn--primary">
+          <button className="navbar-btn navbar-btn--primary" onClick={() => navigate("/login")}>
             Se connecter
           </button>
-          <button className="navbar-btn navbar-btn--ghost">
+          <button className="navbar-btn navbar-btn--ghost" onClick={() => navigate("/session")}>
             Rejoindre une session
           </button>
         </div>
