@@ -2,6 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
+/*:root 
+{
+  --color-bg: #FFF8F1;            /* fond global légèrement crème /*
+  --color-surface: #FFFFFF;       /* cartes & sections /*
+  --color-text-main: #3B2414;     /* texte principal, brun foncé /*
+  --color-accent-orange: #F48B1A; /* accents, icônes, petits éléments /*
+  --color-accent-brown: #6A3215;  /* boutons principaux, titres forts /*
+  --color-accent-soft: #D0F1D5;   /* petits badges / surlignages doux /*
+} */
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --color-bg: #FFFDF9;            /* fond global quasi blanc, très léger */
+  --color-surface: #FFFFFF;       /* cartes blanches */
+  --color-text-main: #3A1608;     /* brun foncé lisible */
+  --color-accent-orange: #F97316; /* orange vif (référent) */
+  --color-accent-brown: #7A2E0C;  /* marron chaud, proche de ton logo */
+  --color-accent-soft: #FFE0B2;   /* orange clair pour fonds doux */
+}
+
 body {
-  @apply bg-gray-100 text-gray-900;
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Boutons globaux – réutilisables */
+
+.btn-primary {
+  background-color: var(--color-accent-brown);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.6rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.btn-primary:hover {
+  background-color: #542511;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-accent-brown);
+  border-radius: 999px;
+  border: 1px solid var(--color-accent-brown);
+  padding: 0.85rem 1.6rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(106, 50, 21, 0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }

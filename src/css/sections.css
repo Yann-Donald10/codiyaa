@@ -1,0 +1,116 @@
+.section {
+  padding: 4rem 1.5rem;
+}
+
+.section-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+/*.section-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-text-main);
+}*/
+
+.section-title {
+  font-size: 2.1rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-accent-brown);
+  letter-spacing: 0.01em;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  border-radius: 999px;
+  margin-top: 0.5rem;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-orange),
+    var(--color-accent-soft)
+  );
+}
+
+
+
+
+.section-text {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  opacity: 0.9;
+}
+
+/* Variations de fond pour alterner les sections 
+.section-light {
+  background-color: var(--color-surface); 
+}
+
+.section-cream {
+  background-color: var(--color-bg); /* crème 
+}*/
+
+.section-light {
+  background-color: #FFFFFF;      /* blanc net */
+}
+
+.section-cream {
+  background-color: #FFF5EB;      /* crème orangée plus visible */
+}
+
+.section--centered {
+  text-align: center;
+}
+
+.section--centered .section-title::after {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* Grille générique 3 colonnes (About / Services) */
+
+.section-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.section-card {
+  background-color: var(--color-surface);
+  border-radius: 18px;
+  padding: 1.6rem 1.8rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+/* ici on centre juste le titre de la carte */
+.section-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-main);
+  text-align: center;
+}
+
+.section-card-text {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  /* par défaut à gauche, on ne touche pas */
+}
+
+/* Responsif */
+@media (min-width: 768px) {
+  .section-grid--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: 3rem 1.25rem;
+  }
+}

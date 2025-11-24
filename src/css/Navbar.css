@@ -1,0 +1,150 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: #fffdf9;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Légère réduction de hauteur après scroll */
+.navbar--scrolled .navbar-inner {
+  padding-block: 0.5rem;
+}
+
+.navbar-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0.9rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* Logo */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.navbar-logo-image {
+  height: 38px;
+  width: auto;
+}
+
+/* Liens */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar-link {
+  font-size: 0.96rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 0.15rem;
+}
+
+.navbar-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-orange),
+    var(--color-accent-soft)
+  );
+  transition: width 0.18s ease-out;
+}
+
+.navbar-link:hover::after {
+  width: 100%;
+}
+
+/* Boutons à droite */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar-btn {
+  border-radius: 999px;
+  padding: 0.45rem 1.2rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  border: 1px solid transparent;
+}
+
+/* Se connecter = plein, orange */
+.navbar-btn--primary {
+  background-color: var(--color-accent-orange);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+}
+
+.navbar-btn--primary:hover {
+  background-color: #ea580c;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.45);
+}
+
+/* Rejoindre une session = ghost avec bordure motive */
+.navbar-btn--ghost {
+  background-color: #fffdf9;
+  color: var(--color-accent-brown);
+  border-color: var(--color-accent-soft);
+}
+
+.navbar-btn--ghost:hover {
+  background-color: #fff7eb;
+  border-color: var(--color-accent-orange);
+  transform: translateY(-1px);
+}
+
+/* Bande de motifs africains */
+.navbar-pattern-strip {
+  height: 22px; /* ajuste si besoin */
+  background-color: #3a1608;
+  background-image: url("../assets/images/pattern-codiyaa.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+}
+
+/* Responsive simple */
+@media (max-width: 768px) {
+  .navbar-inner {
+    padding-inline: 1rem;
+    gap: 0.75rem;
+  }
+
+  .navbar-nav {
+    display: none; /* pour l’instant : logo + boutons seulement sur mobile */
+  }
+
+  .navbar-logo-image {
+    height: 32px;
+  }
+
+  .navbar-actions {
+    gap: 0.5rem;
+  }
+
+  .navbar-btn {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.8rem;
+  }
+}
