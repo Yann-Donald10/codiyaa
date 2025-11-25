@@ -6,6 +6,7 @@ import JoinSession from "../pages/SessionPage";
 import SignupPage from "../pages/SignupPage";
 import Workspace from "../pages/Workpage";
 import Work from "../pages/Workspace";
+import SuccessContact from "../pages/ConctactSuccessPage";
 import { useAuth } from '../context/AuthContext'
 
 const AppRouter = () => {
@@ -17,6 +18,7 @@ const AppRouter = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/Sucess-Contact" element={<SuccessContact />} />
         <Route 
           path="/login" 
           element={
