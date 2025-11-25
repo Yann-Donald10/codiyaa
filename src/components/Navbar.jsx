@@ -28,6 +28,7 @@ const Navbar = () => {
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("overview");
+  const navigate = useNavigate();
 
   // 1) Effet pour réduire la navbar au scroll
   useEffect(() => {
