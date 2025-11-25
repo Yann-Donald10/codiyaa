@@ -1,17 +1,12 @@
 .section {
-  padding: 4rem 1.5rem;
+  padding: 4rem 2rem;
 }
 
 .section-inner {
-  max-width: 1120px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
-/*.section-title {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: var(--color-text-main);
-}*/
 
 .section-title {
   font-size: 2.1rem;
@@ -42,15 +37,6 @@
   line-height: 1.65;
   opacity: 0.9;
 }
-
-/* Variations de fond pour alterner les sections 
-.section-light {
-  background-color: var(--color-surface); 
-}
-
-.section-cream {
-  background-color: var(--color-bg); /* crème 
-}*/
 
 .section-light {
   background-color: #FFFFFF;      /* blanc net */
@@ -101,6 +87,7 @@
   opacity: 0.9;
   /* par défaut à gauche, on ne touche pas */
 }
+
 
 /* Responsif */
 @media (min-width: 768px) {
