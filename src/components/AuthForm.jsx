@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import pattern from "../assets/images/pattern-codiyaa.png";
 import "../css/AuthForm.css";
 
 
@@ -28,7 +29,7 @@ const AuthForm = () => {
 
   return (
     <div className="auth-container">
-      <img src="Decor/barre_haut_Auth.png" alt="" className="decor decor-top" />
+      <img src={pattern} alt="" className="decor decor-top" />
 
       <h2 className="auth-title">Login</h2>
 
@@ -59,7 +60,7 @@ const AuthForm = () => {
       <p><Link to= "/signup">Création de compte</Link></p>
       </div>
 
-      <img src="Decor/barre_haut_Auth.png" alt="" className="decor decor-bottom" />
+      <img src={pattern} alt="" className="decor decor-bottom" />
     </div>
   );
 };

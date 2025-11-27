@@ -1,48 +1,84 @@
-/*.auth-container {
+/* Container général */
+.auth-container {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;                /* prend exactement toute la hauteur de l’écran */
+  box-sizing: border-box;       /* le padding est inclus dans les 100vh */
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2rem 1rem;
-  background: #fff;
+  padding: 4rem 1.5rem;         /* espace haut/bas pour ne pas coller les décors */
+  background: #fffdf9;
 }
 
+/* Barres décoratives */
+.decor {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 22px; /* même hauteur que la navbar si tu veux */
+  background-color: #3a1608;
+  background-image: url("../assets/images/pattern-codiyaa.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  z-index: 0;
+}
+
+.decor-top {
+  top: 0;
+}
+
+.decor-bottom {
+  bottom: 0;
+}
+
+/* Titre + carte */
 .auth-title {
   font-size: 2rem;
   font-weight: 700;
   color: #4a1d0b;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   text-align: center;
+  z-index: 1;
 }
+
+/* Le formulaire sert de carte */
 .auth-form {
   width: 100%;
   max-width: 380px;
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  padding: 2.2rem 2rem 2rem;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
+  z-index: 1;
 }
 
+/* Champs */
 .auth-form input {
   width: 100%;
   padding: 0.9rem;
   margin-top: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
   font-size: 1rem;
-  transition: 0.2s;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
+.auth-form input:focus {
+  outline: none;
+  border-color: #f97316; /* orange */
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+}
+
+/* Lien mot de passe oublié */
 .forgot {
   font-size: 0.9rem;
   text-align: right;
   margin-top: 0.5rem;
-  color: #C2410C;
+  color: #c2410c;
   cursor: pointer;
 }
 
@@ -50,30 +86,40 @@
   text-decoration: underline;
 }
 
+/* Bouton submit */
 .btn-submit {
   margin-top: 1.4rem;
   padding: 0.9rem;
-  background: linear-gradient(90deg, #f4a026, #bd630d);
-  color: white;
+  background: linear-gradient(90deg, #f97316, #b45309);
+  color: #ffffff;
   border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
 }
 
 .btn-submit:hover {
-  background: #a53507;
+  background: #ea580c;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(234, 88, 12, 0.35);
 }
 
+/* Zone "Pas de compte ?" */
 .toggle-text {
-  margin-top: 1.5rem;
+  margin-top: 1.3rem;
   font-size: 0.95rem;
   text-align: center;
+  z-index: 1;
+}
+
+.toggle-text p {
+  margin: 0.1rem 0;
 }
 
 .toggle-text a {
-  color: #C2410C;
+  color: #c2410c;
   font-weight: 600;
 }
 
@@ -81,19 +127,17 @@
   text-decoration: underline;
 }
 
-.decor {
-  width: 100%;
-  height: 60px;
-}
+/* Responsive */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 5rem 1rem;
+  }
 
-.decor-top {
-  position: absolute;
-  top: -10px;
-  left: -10px;
-}
+  .auth-form {
+    padding: 2em 1.5rem 1.6rem;
+  }
 
-.decor-bottom {
-  position: absolute;
-  bottom: -10px;
-  left: -10px;
-}*/
+  .auth-title {
+    font-size: 1.7rem;
+  }
+}
