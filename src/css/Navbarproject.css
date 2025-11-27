@@ -1,0 +1,178 @@
+/* ===========================
+   Navbar : conteneur général
+   =========================== */
+
+.navbarproject {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: #fffdf9;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Légère réduction de hauteur après scroll */
+.navbar--scrolled-project .navbar-inner-project {
+  padding-block: 0.5rem;
+}
+
+/* Contenu interne de la barre */
+.navbar-inner-project {
+  max-width: 1280px;          /* un peu plus large */
+  margin: 0 auto;
+  padding: 1rem 2rem;     /* plus de marge à gauche/droite */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* ===========================
+   Logo
+   =========================== */
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.navbar-logo-image {
+  height: 40px;               /* léger boost */
+  width: auto;
+}
+
+/* ===========================
+   Liens de navigation
+   =========================== */
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;                /* plus d’espace entre les liens */
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar-link {
+  font-size: 0.97rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 0.2rem;
+}
+
+/* Soulignement dégradé (hover + actif) */
+.navbar-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-orange),
+    var(--color-accent-soft)
+  );
+  transition: width 0.18s ease-out;
+}
+
+.navbar-link:hover::after {
+  width: 100%;
+}
+
+/* Lien actif (section visible) */
+.navbar-link.active {
+  color: var(--color-accent-brown);
+  font-weight: 600;
+}
+
+.navbar-link.active::after {
+  width: 100%;
+}
+
+/* ===========================
+   Boutons à droite
+   =========================== */
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-shrink: 0;
+  margin-left: auto;          /* pousse bien le bloc vers la droite */
+}
+
+.navbar-btn {
+  border-radius: 999px;
+  padding: 0.55rem 1.5rem;    /* un peu plus gros */
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease,
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+  border: 1px solid transparent;
+}
+
+
+/* Rejoindre une session = ghost */
+.navbar-user-name{
+  background-color: #fffdf9;
+  color: var(--color-accent-brown);
+  border-color: var(--color-accent-soft);
+}
+
+/* Rejoindre une session = ghost */
+.navbar-btn--ghost {
+  background-color: #fffdf9;
+  color: var(--color-accent-brown);
+  border-color: var(--color-accent-soft);
+}
+
+/* ===========================
+   Bande de motifs africains
+   =========================== */
+
+.navbar-pattern-strip {
+  height: 22px;
+  background-color: #3a1608;
+  background-image: url("../assets/images/pattern-codiyaa.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+}
+
+/* ===========================
+   Responsive (mobile)
+   =========================== */
+
+@media (max-width: 768px) {
+  .navbar-inner-project {
+    padding-inline: 1rem;
+    gap: 0.75rem;
+  }
+
+  /* Pour l’instant : on masque les liens au profit logo + boutons */
+  .navbar-nav {
+    display: none;
+  }
+
+  .navbar-logo-image {
+    height: 32px;
+  }
+
+  .navbar-actions {
+    gap: 0.5rem;
+  }
+
+  .navbar-btn {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.8rem;
+  }
+}

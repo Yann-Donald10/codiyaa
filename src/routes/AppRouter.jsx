@@ -4,7 +4,7 @@ import AuthPage from "../pages/AuthPage";
 import ProjectPageList from "../pages/ProjectListPage";
 import JoinSession from "../pages/SessionPage";
 import SignupPage from "../pages/SignupPage";
-import Workspace from "../pages/Workpage";
+import Projects from "../pages/MyProjectListpage";
 import Work from "../pages/Workspace";
 import SuccessContact from "../pages/ConctactSuccessPage";
 import { useAuth } from '../context/AuthContext'
@@ -38,7 +38,7 @@ const AppRouter = () => {
           } 
         />
         <Route path="/session" element={<JoinSession />} />
-        <Route path="/workspace/:studentId" element={<Workspace />} />
+        <Route path="/projects/:studentId" element={<Projects />} />
         <Route path="/work" element={<Work />} />
       </Routes>
     </Router>

@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
 export default function Workspace() {
   const { studentId } = useParams();
   const navigate = useNavigate();
   const [student, setStudent] = useState(null);
+  const location = useLocation();
+  const fromEducator = location.state?.fromEducator || false;
+
 
   useEffect(() => {
     const checkSession = async () => {
@@ -24,21 +28,17 @@ export default function Workspace() {
 
       setStudent(studentData);
 
-      // 2️⃣ Vérifier le session_status
-      const { data: educator, error: educatorError } = await supabase
-        .from("educator")
-        .select("session_status")
-        .eq("id_educator", studentData.id_educator)
-        .single();
+      if (!fromEducator) {
+        // Vérification pour l'élève seulement
+        const { data: educator, error: educatorError } = await supabase
+          .from("educator")
+          .select("session_status")
+          .eq("id_educator", studentData.id_educator)
+          .single();
 
-      if (educatorError || !educator) {
-        navigate("/");
-        return;
-      }
-
-      // 3️⃣ Si la session est fermée → redirect Home
-      if (!educator.session_status) {
-        navigate("/");
+        if (educatorError || !educator || !educator.session_status) {
+          navigate("/"); // session fermée ou erreur → on bloque l'accès
+        }
       }
     };
 
@@ -49,8 +49,8 @@ export default function Workspace() {
 
   return (
     <div>
-      <h1>Espace de travail</h1>
-      <p>Étudiant : {student.student_firstname} {student.student_lastname}</p>
+      <h1>Bienvenue sur vortre espace {student.student_firstname} {student.student_lastname} </h1>
+      <h2>Projets</h2>
     </div>
   );
 }
