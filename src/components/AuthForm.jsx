@@ -50,7 +50,7 @@ const AuthForm = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <p className="forgot">Mot de passe oublié ?</p>
+        <a href="/reset-password" className="forgot">Mot de passe oublié ?</a>
 
         <button type="submit" className="btn-submit">Se connecter</button>
       </form>

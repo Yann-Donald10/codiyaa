@@ -121,19 +121,17 @@
   border: 1px solid transparent;
 }
 
-
-/* Rejoindre une session = ghost */
-.navbar-user-name{
-  background-color: #fffdf9;
-  color: var(--color-accent-brown);
-  border-color: var(--color-accent-soft);
-}
-
 /* Rejoindre une session = ghost */
 .navbar-btn--ghost {
   background-color: #fffdf9;
   color: var(--color-accent-brown);
   border-color: var(--color-accent-soft);
+}
+
+.navbar-btn--ghost:hover {
+  background-color: #fff7eb;
+  border-color: var(--color-accent-orange);
+  transform: translateY(-1px);
 }
 
 /* ===========================
