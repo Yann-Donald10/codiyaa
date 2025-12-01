@@ -1,0 +1,8 @@
+.reset-text {
+  text-align: center;       /* Centre le texte horizontalement */
+  line-height: 1.5;         /* Espacement entre les lignes */
+  font-size: 16px;           /* Taille de texte lisible */
+  color: #333;               /* Couleur du texte */
+  margin: 16px 0;            /* Marge verticale pour l'espacement */
+  word-wrap: break-word;     /* Gère le retour à la ligne si le texte est long */
+}

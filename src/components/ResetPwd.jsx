@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import pattern from "../assets/images/pattern-codiyaa.png";
 import "../css/AuthForm.css";
+import "../css/forgotpwd.css"
 
 
 const ResetPwd = ({onSubmitSuccess}) => {
@@ -11,8 +12,8 @@ const ResetPwd = ({onSubmitSuccess}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { error } = await supabase.auth.resetPasswordForEmail('testy@example.com', {
-      RedirectTo: "http://localhost:3000/update-password"  
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: "http://localhost:3000/update-password",  
     });
 
     if (error) {
@@ -30,8 +31,10 @@ const ResetPwd = ({onSubmitSuccess}) => {
       <img src={pattern} alt="" className="decor decor-top" />
 
       <h2 className="auth-title">Mot de passe oublié</h2>
-      <p className="auth-title">Veuillez entrer l'adresse mail de votre compte. Nous vous enverrons un e-mail contenant les instructions afin de créer un nouveau mot de passe</p>
-
+      <p className="reset-text">
+        Veuillez entrer l'adresse mail de votre compte. <br/>
+        Nous vous enverrons un e-mail contenant les instructions afin de créer un nouveau mot de passe</p>
+      
       <form onSubmit={handleSubmit} className="auth-form">
         
         <input
