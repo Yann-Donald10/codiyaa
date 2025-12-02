@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import MyProjectList from '../components/MyProjectList'
+import NavBarStudent from '../components/NavbarStudent'
 
 export default function Workspace() {
   const { studentId } = useParams();
@@ -49,8 +51,9 @@ export default function Workspace() {
 
   return (
     <div>
-      <h1>Bienvenue sur vortre espace {student.student_firstname} {student.student_lastname} </h1>
-      <h2>Projets</h2>
+      <NavBarStudent />
+      <p className="welcome-text">Bienvenue sur votre espace, <strong>{student.student_firstname} {student.student_lastname}</strong></p>
+      <MyProjectList student = {student} fromEducator={fromEducator}/>
     </div>
   );
 }

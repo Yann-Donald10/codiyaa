@@ -9,12 +9,12 @@ const ProjectListPage = () => {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [session_status, set_session_status] = useState();
-    const [educator_range, set_educator_range] = useState();
-    const [rangelist, set_rangelist] = useState([]);
-    const [rangeType, set_rangeType] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [session_status, set_session_status] = useState();
+  const [educator_range, set_educator_range] = useState();
+  const [rangelist, set_rangelist] = useState([]);
+  const [rangeType, set_rangeType] = useState();
 
   
     const fetchProjects = async () => {

@@ -26,6 +26,30 @@
   gap: 2rem;
 }
 
+.navbarstudent {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: radial-gradient(circle at top left, #FFE0B2 0%, #FDBA74 45%, #FFFFFF 100%);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Légère réduction de hauteur après scroll */
+.navbar--scrolled-student .navbar-inner-student {
+  padding-block: 0.5rem;
+}
+
+/* Contenu interne de la barre */
+.navbar-inner-student {
+  max-width: 1280px;          /* un peu plus large */
+  margin: 0 auto;
+  padding: 1rem 2rem;     /* plus de marge à gauche/droite */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
 /* ===========================
    Logo
    =========================== */
