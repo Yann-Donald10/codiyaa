@@ -3,26 +3,26 @@ import { useNavigate } from "react-router-dom";
 import "../css/Navbarproject.css";
 import logo from "../assets/images/logo-codiyaa.png";
 import { supabase } from "../lib/supabaseClient";
-import { useAuth } from '../context/AuthContext'
-import logouser from "../assets/images/user-logo.png"
-import iconparam from "../assets/images/parametres.png"
-import iconhelp from "../assets/images/question.png"
-import icontuto from "../assets/images/ampoule.png"
-
+import { useAuth } from "../context/AuthContext";
+import logouser from "../assets/images/user-logo.png";
+import iconparam from "../assets/images/parametres.png";
+import iconhelp from "../assets/images/question.png";
+import icontuto from "../assets/images/ampoule.png";
 
 const Navbar = (props) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("#");
-  const { user } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [educator_profile, setEducator_profile] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const session_status = props.session_status
-  const handleChangeStatus = props.handleChangeStatus
 
-  // 1) Effet pour réduire la navbar au scroll
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const session_status = props.session_status;
+  const handleChangeStatus = props.handleChangeStatus;
+
+  // Réduction navbar au scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -32,30 +32,7 @@ const Navbar = (props) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 2) Effet pour détecter la section active
-  useEffect(() => {
-    const sections = ["Paramètres", "aide", "tutoriel"];
-
-    const onScroll = () => {
-      const scrollPos = window.scrollY; // marge visuelle
-
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (
-          el &&
-          el.offsetTop <= scrollPos &&
-          el.offsetTop + el.offsetHeight > scrollPos
-        ) {
-          setActiveSection(id);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+  // Récup profil enseignant
   const fetchProfile = async () => {
     try {
       const { data, error } = await supabase
@@ -67,32 +44,36 @@ const Navbar = (props) => {
       setEducator_profile(data || []);
     } catch (err) {
       setError(err.message);
-    } finally { 
-      setLoading(false); 
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (user) 
-      fetchProfile();
+    if (user) fetchProfile();
   }, [user]);
 
-  const handleLogout = async () => { 
-    const { error } = await supabase.auth.signOut(); 
-    if (error) 
-      console.log("Erreur logout :", error); 
-    else 
-      navigate("/home")
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.log("Erreur logout :", error);
+    else navigate("/home");
   };
 
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const toggleDropdown = () => setDropdownOpen((prev) => !prev);
 
-  console.log(educator_profile)
+  const educatorName =
+    educator_profile[0]
+      ? `${educator_profile[0].educator_firstname} ${educator_profile[0].educator_lastname}`
+      : "";
 
   return (
-    <header className="navbarproject navbar--scrolled-project">
+    <header
+      className={`navbarproject ${
+        isScrolled ? "navbar--scrolled-project" : ""
+      }`}
+    >
       <div className="navbar-inner-project">
-        {/* Logo */}
+        {/* Logo Codiyaa */}
         <div className="navbar-left">
           <img
             src={logo}
@@ -103,71 +84,66 @@ const Navbar = (props) => {
 
         {/* Liens de navigation */}
         <nav className="navbar-nav">
-          <img src={iconparam} width="20px" height="20px" alt="icon"/>
-          <a
-            href="#"
-            className={`navbar-link ${
-              activeSection === "overview" ? "active" : ""
-            }`}
-          >
-            Paramètres
-          </a>
-          <img src={iconhelp} width="20px" height="20px" alt="icon"/>
-          <a
-            href="#"
-            className={`navbar-link ${
-              activeSection === "about" ? "active" : ""
-            }`}
-          >
-            Aide
-          </a>
-          <img src={icontuto} width="20px" height="20px" alt="icon"/>
-          <a
-            href="#"
-            className={`navbar-link ${
-              activeSection === "services" ? "active" : ""
-            }`}
-          >
-            Tutoriels
-          </a>
+          <button className="navbar-icon-link">
+            <img src={iconparam} alt="" />
+            <span>Paramètres</span>
+          </button>
+          <button className="navbar-icon-link">
+            <img src={iconhelp} alt="" />
+            <span>Aide</span>
+          </button>
+          <button className="navbar-icon-link">
+            <img src={icontuto} alt="" />
+            <span>Tutoriels</span>
+          </button>
         </nav>
 
-        {/* Boutons à droite */}
+        {/* Zone utilisateur */}
         <div className="navbar-actions">
-          <img
-              src={logouser} width="40px" height="40px"
+          {/* Badge statut session */}
+          <span
+            className={`navbar-session-badge ${
+              session_status ? "navbar-session-badge--on" : "navbar-session-badge--off"
+            }`}
+          >
+            {session_status ? "Session ouverte" : "Session fermée"}
+          </span>
+
+          <div className="navbar-user-wrapper">
+            <img
+              src={logouser}
+              className="navbar-user-avatar"
               alt="avatar"
             />
-          <div style={{ position: "relative" }}>
-            <button className="navbar-btn navbar-btn--ghost" onClick={toggleDropdown}>
-              {educator_profile[0]?.educator_firstname} {educator_profile[0]?.educator_lastname}
+            <button
+              className="navbar-btn navbar-btn--ghost"
+              onClick={toggleDropdown}
+            >
+              {educatorName}
             </button>
+
             {dropdownOpen && (
-              <div className="dropdown-menu" style={{
-                position: "absolute",
-                right: 0,
-                top: "100%",
-                backgroundColor: "#fff",
-                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-                borderRadius: "8px",
-                padding: "10px",
-                zIndex: 100
-              }}>
+              <div className="navbar-dropdown">
                 {session_status ? (
-                  <button 
+                  <button
+                    className="navbar-dropdown-item"
                     onClick={() => handleChangeStatus(false)}
-                    style={{ display: "block", width: "100%", marginBottom: "5px" }}>
+                  >
                     Terminer la session
                   </button>
                 ) : (
-                  <button 
+                  <button
+                    className="navbar-dropdown-item"
                     onClick={() => handleChangeStatus(true)}
-                    style={{ display: "block", width: "100%", marginBottom: "5px" }}>
+                  >
                     Activer la session
                   </button>
                 )}
 
-                <button onClick={() => handleLogout()} style={{ display: "block", width: "100%" }}>
+                <button
+                  className="navbar-dropdown-item navbar-dropdown-item--danger"
+                  onClick={handleLogout}
+                >
                   Se déconnecter
                 </button>
               </div>
@@ -183,7 +159,3 @@ const Navbar = (props) => {
 };
 
 export default Navbar;
-
-
-
-

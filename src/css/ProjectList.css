@@ -1,0 +1,148 @@
+/* ===== Section globale ===== */
+
+.student-section {
+  max-width: 1160px;              /* plus large -> 2 à 3 colonnes possibles */
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+/* Titre + bouton "Ajouter un élève" */
+
+.student-section-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.student-section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4a1d0b;
+  margin: 0;
+}
+
+.student-add-btn {
+  padding: 0.85rem 1.8rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(249, 115, 22, 0.25);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+}
+
+.student-add-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(249, 115, 22, 0.32);
+}
+
+.student-add-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(249, 115, 22, 0.24);
+}
+
+/* ===== Grille des dossiers ===== */
+
+.student-grid {
+  margin-top: 0.5rem;
+  display: grid;
+  /* colonnes réactives : 1 sur petit écran, 2, puis 3 si la place le permet */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.75rem 1.8rem;
+  justify-items: center;
+}
+
+/* Carte élève */
+
+.student-card {
+  width: 100%;
+  max-width: 360px;               /* plus étroit -> plusieurs cartes par ligne */
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.06);
+  padding: 1.2rem 1.4rem;
+  box-sizing: border-box;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.student-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.09);
+}
+
+.student-card-link {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  text-decoration: none;
+}
+
+/* vignette logo */
+
+.student-card-illustration {
+  flex-shrink: 0;
+  width: 84px;
+  height: 84px;
+  border-radius: 22px;
+  background: #fff4ea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.student-card-illustration img {
+  max-width: 72px;
+  height: auto;
+}
+
+/* texte */
+
+.student-card-body {
+  flex: 1;
+}
+
+.student-name {
+  margin: 0 0 0.3rem;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #4a1d0b;
+}
+
+.student-code {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #7a4b2a;
+}
+
+.student-code span {
+  color: #f97316;
+  font-weight: 600;
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 768px) {
+  .student-section-header {
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .student-section-title {
+    font-size: 1.7rem;
+  }
+
+  .student-add-btn {
+    width: 100%;
+    max-width: 260px;
+    text-align: center;
+  }
+
+  .student-card {
+    max-width: 100%;
+  }
+}
