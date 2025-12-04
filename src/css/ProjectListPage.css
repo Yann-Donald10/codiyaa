@@ -1,0 +1,48 @@
+.project-page {
+  min-height: 100vh;
+  background-color: #fffdf9;
+  display: flex;
+  flex-direction: column;
+}
+
+/* zone sous la navbar */
+.project-page-main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 3rem;
+}
+
+/* petit style pour le “Chargement…” */
+.project-page-loading {
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 1rem;
+  color: #7a4b2a;
+}
+
+/* Conteneur de la liste */
+.student-section {
+  width: 100%;
+  max-width: 1200px !important;   /* pour écraser un vieux max-width trop petit */
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+/* Les dossiers doivent être dans un flex qui wrap */
+.student-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center;
+  gap: 1.8rem;
+}
+
+/* Chaque carte prend une largeur fixe mais flexible */
+.student-card {
+  flex: 0 1 340px !important;   /* 2–3 cartes par ligne selon la largeur */
+  max-width: 340px !important;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.2rem 1.4rem;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.06);
+}

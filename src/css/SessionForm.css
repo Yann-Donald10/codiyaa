@@ -1,0 +1,267 @@
+/* ===== Layout de la page ===== */
+
+.join-session-page {
+  position: relative;
+  min-height: 100vh;
+  background: #fffdf9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1.5rem;
+  box-sizing: border-box;
+}
+
+/* bandeaux motifs haut/bas */
+.join-pattern-strip {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 22px;
+  background-color: #3a1608;
+  background-image: url("../assets/images/pattern-codiyaa.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  z-index: 0;
+}
+
+.join-pattern-strip--top {
+  top: 0;
+}
+
+.join-pattern-strip--bottom {
+  bottom: 0;
+}
+
+/* carte centrale */
+.join-session-card {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 2.75rem 2.5rem 2.2rem;
+  box-shadow: 0 26px 40px rgba(0, 0, 0, 0.08);
+  text-align: center;
+
+  /* animation d'entrée */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: session-card-in 0.45s ease-out forwards;
+}
+
+@keyframes session-card-in {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* entête de la carte */
+.join-session-header {
+  margin-bottom: 1.4rem;
+}
+
+.join-session-subtitle {
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #c26c2b;
+  margin: 0 0 0.25rem;
+}
+
+.join-session-title {
+  font-size: 1.8rem;
+  margin: 0 0 0.4rem;
+  color: #4a1d0b;
+}
+
+.join-session-helper {
+  font-size: 0.95rem;
+  color: #7a4b2a;
+  margin: 0;
+}
+
+/* ===== Formulaire / keypad ===== */
+
+.session-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* pastilles de code */
+.session-code-display {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.6rem auto 0.4rem;
+}
+
+.session-code-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid #f97316;
+  background: transparent;
+  transform: scale(0.9);
+}
+
+.session-code-dot--filled {
+  background: radial-gradient(circle at 30% 30%, #fed7aa, #f97316);
+  animation: session-dot-pop 0.18s ease-out;
+}
+
+@keyframes session-dot-pop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* petit texte qui évolue */
+.session-progress-text {
+  margin-top: 0.2rem;
+  margin-bottom: 1.1rem;
+  font-size: 0.9rem;
+  color: #8a5330;
+}
+
+/* clavier numérique */
+.session-keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.session-keypad-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* boutons */
+.session-key-btn {
+  width: 68px;
+  height: 68px;
+  border-radius: 20px;
+  border: none;
+  background: #fff4ea;
+  color: #4a1d0b;
+  font-size: 1.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.07);
+  transition: transform 0.07s ease, box-shadow 0.07s ease,
+    background-color 0.12s ease, color 0.12s ease;
+}
+
+.session-key-btn:hover {
+  background: #ffe7cf;
+}
+
+.session-key-btn:active {
+  transform: translateY(2px) scale(0.97);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* bouton OK */
+.session-key-btn--ok {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #ffffff;
+}
+
+.session-key-btn--ok:disabled {
+  background: #fbbf77;
+  color: #fef3c7;
+  cursor: default;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* OK prêt -> petit pulse */
+.session-key-btn--ok-ready:not(:disabled) {
+  animation: session-ok-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes session-ok-pulse {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 6px 14px rgba(250, 120, 30, 0.45);
+  }
+  50% {
+    transform: translateY(-1px) scale(1.04);
+    box-shadow: 0 10px 20px rgba(250, 120, 30, 0.6);
+  }
+}
+
+/* bouton retour arrière */
+.session-key-btn--ghost {
+  background: #fef7ef;
+  font-size: 1.4rem;
+}
+
+/* message d'erreur */
+.session-error {
+  margin-top: 1rem;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+/* animation légère si erreur */
+@keyframes session-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+.session-form--error {
+  animation: session-shake 0.22s ease;
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 480px) {
+  .join-session-page {
+    padding: 3rem 1rem;
+  }
+
+  .join-session-card {
+    padding: 2.2rem 1.6rem 2rem;
+  }
+
+  .join-session-title {
+    font-size: 1.6rem;
+  }
+
+  .session-key-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    border-radius: 18px;
+  }
+}
