@@ -17,9 +17,9 @@
 
 /* Contenu interne de la barre */
 .navbar-inner-project {
-  max-width: 1280px;          /* un peu plus large */
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 1rem 2rem;     /* plus de marge à gauche/droite */
+  padding: 0.9rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,22 +62,23 @@
 }
 
 .navbar-logo-image {
-  height: 40px;               /* léger boost */
+  height: 40px;
   width: auto;
 }
 
 /* ===========================
-   Liens de navigation
+   Liens de navigation centre
    =========================== */
 
 .navbar-nav {
   display: flex;
   align-items: center;
-  gap: 2.4rem;                /* plus d’espace entre les liens */
+  gap: 2rem;
   flex: 1;
   justify-content: center;
 }
 
+/* Ancien style "navbar-link" – on le garde si utilisé ailleurs */
 .navbar-link {
   font-size: 0.97rem;
   font-weight: 500;
@@ -118,8 +119,27 @@
   width: 100%;
 }
 
+/* Nouveau style : icône + label (Paramètres / Aide / Tutoriels) */
+.navbar-icon-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+  padding: 0;
+}
+
+.navbar-icon-link img {
+  width: 20px;
+  height: 20px;
+}
+
 /* ===========================
-   Boutons à droite
+   Actions à droite
    =========================== */
 
 .navbar-actions {
@@ -127,12 +147,46 @@
   align-items: center;
   gap: 0.9rem;
   flex-shrink: 0;
-  margin-left: auto;          /* pousse bien le bloc vers la droite */
+  margin-left: auto;
 }
 
+/* Badge état de session */
+.navbar-session-badge {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #e5e5e5;
+}
+
+.navbar-session-badge--on {
+  background: #ecfdf3;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.navbar-session-badge--off {
+  background: #fff7ed;
+  color: #9a3412;
+  border-color: #fed7aa;
+}
+
+/* Bloc utilisateur (avatar + nom + dropdown) */
+.navbar-user-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.navbar-user-avatar {
+  width: 40px;
+  height: 40px;
+}
+
+/* Bouton générique */
 .navbar-btn {
   border-radius: 999px;
-  padding: 0.55rem 1.5rem;    /* un peu plus gros */
+  padding: 0.55rem 1.5rem;
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
@@ -159,6 +213,41 @@
 }
 
 /* ===========================
+   Dropdown utilisateur
+   =========================== */
+
+.navbar-dropdown {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  background-color: #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 0.5rem;
+  min-width: 190px;
+  z-index: 60;
+}
+
+.navbar-dropdown-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.45rem 0.75rem;
+  border: none;
+  background: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.navbar-dropdown-item:hover {
+  background-color: #fff7ed;
+}
+
+.navbar-dropdown-item--danger {
+  color: #b91c1c;
+}
+
+/* ===========================
    Bande de motifs africains
    =========================== */
 
@@ -171,30 +260,54 @@
 }
 
 /* ===========================
-   Responsive (mobile)
+   Responsive
    =========================== */
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .navbar-inner-project {
-    padding-inline: 1rem;
-    gap: 0.75rem;
+    padding-inline: 1.2rem;
+    gap: 0.6rem 1.2rem;
+    flex-wrap: wrap;                  /* permet de passer sur 2 lignes */
   }
 
-  /* Pour l’instant : on masque les liens au profit logo + boutons */
+  .navbar-left {
+    flex: 0 0 auto;
+  }
+
   .navbar-nav {
-    display: none;
+    order: 3;                         /* liens en deuxième ligne */
+    width: 100%;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .navbar-actions {
+    margin-left: auto;
+    gap: 0.6rem;
+  }
+
+  .navbar-btn,
+  .navbar-session-pill {
+    padding: 0.45rem 1.1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar-inner-project {
+    padding-inline: 0.9rem;
+  }
+
+  .navbar-nav {
+    gap: 1rem;
+  }
+
+  .navbar-link {
+    font-size: 0.85rem;
   }
 
   .navbar-logo-image {
     height: 32px;
   }
-
-  .navbar-actions {
-    gap: 0.5rem;
-  }
-
-  .navbar-btn {
-    padding: 0.4rem 0.9rem;
-    font-size: 0.8rem;
-  }
 }
+

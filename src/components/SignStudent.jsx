@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { supabase } from "../lib/supabaseClient";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from '../context/AuthContext'
 
 const SignupStudentForm = ({ onAdd, onCancel }) => {
   const [firstname, setFirstname] = useState("");
@@ -15,15 +12,23 @@ const SignupStudentForm = ({ onAdd, onCancel }) => {
   return (
     <form onSubmit={submit}>
       <label>Nom</label>
-      <input value={lastname} onChange={(e) => setLastname(e.target.value)} required />
-      <br/>
+      <input
+        value={lastname}
+        onChange={(e) => setLastname(e.target.value)}
+        required
+      />
 
       <label>Prénom</label>
-      <input value={firstname} onChange={(e) => setFirstname(e.target.value)} required />
-      <br/>
+      <input
+        value={firstname}
+        onChange={(e) => setFirstname(e.target.value)}
+        required
+      />
 
-      <button type="submit">Ajouter</button>
-      <button type="button" onClick={onCancel}>Annuler</button>
+      <div className="modal-buttons-row">
+        <button type="submit">Ajouter</button>
+        <button type="button" onClick={onCancel}>Annuler</button>
+      </div>
     </form>
   );
 };
