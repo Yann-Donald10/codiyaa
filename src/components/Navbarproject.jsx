@@ -142,7 +142,7 @@ const Navbar = (props) => {
 
                 <button
                   className="navbar-dropdown-item navbar-dropdown-item--danger"
-                  onClick={handleLogout}
+                  onClick={() => handleLogout()}
                 >
                   Se déconnecter
                 </button>
