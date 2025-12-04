@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import "../css/MyProjectList.css"
 import defaultimage from "../assets/images/default.png"
@@ -12,6 +11,7 @@ export default function Workspace(props) {
 
     const student = props.student
     const fromEducator = props.fromEducator
+    const studentId = props.studentId
     const [projectList, setProjectList] = useState();
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -165,7 +165,7 @@ export default function Workspace(props) {
       <div className="projects-grid">
         {projectList?.map((project) => (
           <div key={project.id_project} className="project-card">
-            
+          <Link to={`/projects/${studentId}/workspace/${project.id_project}`} className="project-link">
             <img
               src={project.scenario?.scenario_image 
                 ? `/${project.scenario.scenario_image}`
@@ -177,6 +177,7 @@ export default function Workspace(props) {
 
             <h3>{project.project_title}</h3>
             <p>Scénario : {project.scenario?.scenario_title}</p>
+          </Link>
             {fromEducator ?(
             <button
               className="delete-btn"

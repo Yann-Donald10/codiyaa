@@ -54,6 +54,11 @@
   margin: 10px 0;
 }
 
+.project-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 
 .modal-overlay {
   position: fixed;

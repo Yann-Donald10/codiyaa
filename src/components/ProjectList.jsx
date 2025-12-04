@@ -64,7 +64,6 @@ const ProjectList = (props) => {
         <div key={index}>
           <Link to={`/projects/${student.id_student}`} state={{ fromEducator: true }}>
             {student.student_firstname} {student.student_lastname}
-            
           </Link>
           {session_status && (
             <span>

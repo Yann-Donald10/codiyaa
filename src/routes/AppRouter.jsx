@@ -5,7 +5,7 @@ import ProjectPageList from "../pages/ProjectListPage";
 import JoinSession from "../pages/SessionPage";
 import SignupPage from "../pages/SignupPage";
 import Projects from "../pages/MyProjectListpage";
-import Work from "../pages/Workspace";
+import Workspace from "../pages/Workspace";
 import SuccessContact from "../pages/ConctactSuccessPage";
 import ResetPasswordPage from "../pages/ResetPwdPage";
 import UpdatePasswordPage from "../pages/UpdatepwdPage";
@@ -43,7 +43,7 @@ const AppRouter = () => {
         />
         <Route path="/session" element={<JoinSession />} />
         <Route path="/projects/:studentId" element={<Projects />} />
-        <Route path="/work" element={<Work />} />
+        <Route path="/projects/:studentId/workspace/:projectId" element={<Workspace />} />
       </Routes>
     </Router>
   );

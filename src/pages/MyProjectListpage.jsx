@@ -53,7 +53,7 @@ export default function Workspace() {
     <div>
       <NavBarStudent />
       <p className="welcome-text">Bienvenue sur votre espace, <strong>{student.student_firstname} {student.student_lastname}</strong></p>
-      <MyProjectList student = {student} fromEducator={fromEducator}/>
+      <MyProjectList student = {student} fromEducator={fromEducator} studentId={studentId}/>
     </div>
   );
 }
