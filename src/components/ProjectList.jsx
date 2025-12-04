@@ -60,22 +60,47 @@ const ProjectList = (props) => {
   if (error) return <p>Erreur: {error}</p>;
 
   return (
-    <div>
-      <h2>Dossiers</h2>
-      {projects.map((student, index) => (
-        <div key={index}>
-          <Link to={`/projects/${student.id_student}`} state={{ fromEducator: true }}>
-            {student.student_firstname} {student.student_lastname}
-          </Link>
-          {session_status && (
-            <span>
-              - {student.student_code}
-            </span>
-          )}
-        </div>
-      ))}
+    <section className="student-section">
+      <div className="student-section-header">
+        <h2 className="student-section-title">Dossiers</h2>
+        <button
+          className="student-add-btn"
+          onClick={() => setShowAddModal(true)}
+        >
+          + Ajouter un élève
+        </button>
+      </div>
 
-      <button onClick={() => setShowAddModal(true)}>Ajouter un élève</button>
+      <div className="student-grid">
+        {projects.map((student) => (
+          <article
+            key={student.id_student}
+            className="student-card"
+          >
+            <Link
+              to={`/projects/${student.id_student}`}
+              state={{ fromEducator: true }}
+              className="student-card-link"
+            >
+              <div className="student-card-illustration">
+                <img src={studentIllustration} alt="" />
+              </div>
+
+              <div className="student-card-body">
+                <h3 className="student-name">
+                  {student.student_firstname} {student.student_lastname}
+                </h3>
+
+                {session_status && (
+                  <p className="student-code">
+                    Code élève : <span>{student.student_code}</span>
+                  </p>
+                )}
+              </div>
+            </Link>
+          </article>
+        ))}
+      </div>
 
       {showAddModal && (
         <div className="modalStyle">

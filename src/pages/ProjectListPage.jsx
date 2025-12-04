@@ -19,8 +19,50 @@ const ProjectListPage = () => {
   const [rangelist, set_rangelist] = useState([]);
   const [rangeType, set_rangeType] = useState();
 
-  
-    const fetchProjects = async () => {
+  const fetchProjects = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("student")
+        .select(
+          "id_student, student_firstname, student_lastname, student_code, url_project"
+        )
+        .eq("id_educator", user.id);
+
+      if (error) throw error;
+      setProjects(data || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) fetchProjects();
+  }, [user, session_status]);
+
+  useEffect(() => {
+    const fetchSessionStatus = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("educator")
+          .select("session_status, id_range")
+          .eq("id_educator", user.id)
+          .single();
+
+        if (error) throw error;
+        set_session_status(data?.session_status || false);
+        set_educator_range(data.id_range);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    if (user) fetchSessionStatus();
+  }, [user]);
+
+  useEffect(() => {
+    const fetchRange = async () => {
       try {
         const { data, error } = await supabase
           .from("range")
