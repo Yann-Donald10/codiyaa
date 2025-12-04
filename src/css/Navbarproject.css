@@ -250,6 +250,41 @@
 }
 
 /* ===========================
+   Dropdown utilisateur
+   =========================== */
+
+.navbar-dropdown {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  background-color: #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 0.5rem;
+  min-width: 190px;
+  z-index: 60;
+}
+
+.navbar-dropdown-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.45rem 0.75rem;
+  border: none;
+  background: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.navbar-dropdown-item:hover {
+  background-color: #fff7ed;
+}
+
+.navbar-dropdown-item--danger {
+  color: #b91c1c;
+}
+
+/* ===========================
    Bande de motifs africains
    =========================== */
 
