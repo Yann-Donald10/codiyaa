@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Navbarproject.css";
 import logo from "../assets/images/logo-codiyaa.png";
@@ -15,6 +15,7 @@ const Navbar = (props) => {
   const [educator_profile, setEducator_profile] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dropdownRef = useRef(null);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -56,10 +57,22 @@ const Navbar = (props) => {
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) console.log("Erreur logout :", error);
-    else navigate("/home");
+    else navigate("/");
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
+
 
   const educatorName =
     educator_profile[0]
@@ -109,7 +122,7 @@ const Navbar = (props) => {
             {session_status ? "Session ouverte" : "Session fermée"}
           </span>
 
-          <div className="navbar-user-wrapper">
+          <div className="navbar-user-wrapper" ref={dropdownRef}>
             <img
               src={logouser}
               className="navbar-user-avatar"
