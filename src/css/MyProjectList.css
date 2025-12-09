@@ -128,7 +128,7 @@
   text-align: center;        /* centre le texte */
   font-size: 30px;            /* augmente la taille */
   font-weight: 500;           /* un peu plus épais */
-  margin: 20px 0;             /* espace au-dessus et en-dessous */
+  margin: 10px 0;             /* espace au-dessus et en-dessous */
 }
 
 .back-button-container {
@@ -157,6 +157,15 @@
 .back-button:active {
   transform: translateY(0);
 }
+
+.header-line {
+  display: flex;
+  justify-content: space-between; /* texte à gauche / bouton à droite */
+  align-items: center;
+  padding: 0 40px; /* même effet que ton margin */
+}
+
+
 .delete-btn {
   position: absolute;
   top: 8px;

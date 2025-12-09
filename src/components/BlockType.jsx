@@ -1,18 +1,22 @@
+
 import React from "react";
 
 export default function BlockType({ types, selectedType, onTypeClick }) {
   return (
-    <div className="types-bar">
+    <div className="types-container">
       {types.map((t) => (
-        <button
+        <div
           key={t.id}
-          className={`type-pill ${selectedType === t.id ? "active" : ""}`}
+          className={`type-box ${selectedType === t.id ? "active" : ""}`}
           onClick={() => onTypeClick(t.id)}
+          style={{
+            backgroundColor: selectedType === t.id ? t.color : "transparent",
+            color: selectedType === t.id ? "#fff" : "#333"
+          }}
         >
-          {t.label}
-        </button>
+          <span className="type-label">{t.label}</span>
+        </div>
       ))}
     </div>
   );
 }
-
