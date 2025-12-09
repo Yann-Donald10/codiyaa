@@ -165,7 +165,7 @@ export default function Workspace(props) {
       <div className="projects-grid">
         {projectList?.map((project) => (
           <div key={project.id_project} className="project-card">
-          <Link to={`/projects/${studentId}/workspace/${project.id_project}`} className="project-link">
+          <Link to={`/projects/${studentId}/workspace/${project.id_project}`} state={{ fromEducator }} className="project-link">
             <img
               src={project.scenario?.scenario_image 
                 ? `/${project.scenario.scenario_image}`
