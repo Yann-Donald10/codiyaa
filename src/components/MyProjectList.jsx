@@ -35,6 +35,7 @@ export default function Workspace(props) {
                     project_status,
                     project_data,
                     created_at,
+                    updated_at,
                     id_scenario,
                     scenario:scenarios (
                       scenario_title,
@@ -95,6 +96,7 @@ export default function Workspace(props) {
           project_status,
           project_data,
           created_at,
+          updated_at,
           id_scenario,
           scenario:scenarios (
             scenario_title,
@@ -177,6 +179,7 @@ export default function Workspace(props) {
 
             <h3>{project.project_title}</h3>
             <p>Scénario : {project.scenario?.scenario_title}</p>
+            <p>Dernière modification : {project.updated_at}</p>
           </Link>
             {fromEducator ?(
             <button
