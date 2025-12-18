@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+/*import React, { useEffect, useState, useRef, useCallback} from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { useEducator } from "../context/EducatorContext";
@@ -26,12 +26,84 @@ export default function WorkspacePage() {
   const [student, setStudent] = useState(null);
   const location = useLocation();
   const fromEducator = location.state?.fromEducator || false;
-  const [selectedSprite, setSelectedSprite] = useState('Homme'); // Default: Person.png
-  const [selectedBackground, setSelectedBackground] = useState('Cours'); // Default: Beach.png
+  const [assetInitialized, setAssetInitialized] = useState(false);
+  const [visualState, setVisualState] = useState({
+    sprite: 'Homme',
+    background: 'Cours',
+    x: null,
+    y: null,
+  });
+  const visualStateRef = useRef(visualState);
+
+  useEffect(() => {
+    visualStateRef.current = visualState;
+  }, [visualState]);
+
+  const spritePositionRef = useRef({ x: null, y: null });
+  
+    console.log(visualState)
+
+      // Fonction pour sauvegarder les données du projet dans Supabase
+  const saveProjectData = async (dataToSave) => {
+    if (!projectId || !dataToSave) return;
+      try {
+          const { error } = await supabase
+              .from("student_project")
+              .update({ project_data: dataToSave, updated_at: new Date() })
+              .eq("id_project", projectId);
+
+          if (error) throw error;
+          console.log("Auto-save successful.");
+      } catch (err) {
+          console.error("Error during auto-save:", err.message);
+      }
+  };
+
+  const saveAssetProject = async (assetData) => {
+    if (!projectId || !assetData) return;
+    try {
+      
+      const { error } = await supabase
+      .from("student_project")
+      .update({
+        asset_project: assetData,
+        updated_at: new Date()
+      })
+      .eq("id_project", projectId);
     
-    // Fonctions de sélection passées à AssetList
-    const handleSpriteSelect = (name) => setSelectedSprite(name);
-    const handleBackgroundSelect = (name) => setSelectedBackground(name);
+      if (error) throw error;
+      console.log("Asset project saved.");
+    } catch (err) {
+      console.error("Error saving asset project:", err.message);
+    }
+  };
+
+  const autoSave = useCallback(() => {
+    const jsonString = assemblyRef.current?.saveWorkspace();
+    if (jsonString) 
+      saveProjectData(jsonString);
+    saveAssetProject(visualStateRef.current);
+  }, []);
+
+    const handleSpriteSelect = (name) => {
+      setVisualState(prev => ({
+        ...prev,
+        sprite: name,
+      }));
+    };
+
+    const handleBackgroundSelect = (name) => {
+      setVisualState(prev => ({
+        ...prev,
+        background: name
+      }));
+    };
+
+    // 🚀 NOUVELLE FONCTION: Enregistre la position du sprite (appelée par ExecutionArea)
+    const handleSpritePositionChange = (x, y) => {
+      spritePositionRef.current = { x, y };
+      setVisualState(prev => ({ ...prev, x, y }));
+    };
 
    useEffect(() => {
     const checkSession = async () => {
@@ -66,28 +138,23 @@ export default function WorkspacePage() {
     checkSession();
   }, [studentId, navigate]);
 
-  console.log(student)
 
   useEffect(() => {
-    const saveInterval = setInterval(autoSave, 30000); // 30 secondes
+    const saveInterval = setInterval(autoSave, 10000); 
+    
     const handleBeforeUnload = (event) => {
-        // Exécuter une sauvegarde synchrone de dernière minute
         autoSave();
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
 
-    // 3. Cleanup: Nettoyer l'intervalle et l'écouteur d'événement au démontage
     return () => {
         clearInterval(saveInterval);
         window.removeEventListener('beforeunload', handleBeforeUnload);
-        
-        // Sauvegarde finale lors de la navigation (avant le démontage du composant)
         autoSave();
     };
-  }, [projectId]);
+  }, [autoSave]); 
 
-// ------------------------------------------------------------------
 
   useEffect(() => {
     const fetchProjectData = async () => {
@@ -98,8 +165,17 @@ export default function WorkspacePage() {
         .eq("id_project", projectId);
         if (error) throw error;
         if (data && data.length > 0) {
+          console.log(data)
           setProjectData(data[0]);
+          if (projectData.asset_project) {
+          setVisualState({
+            sprite: projectData.asset_project.sprite ?? 'Homme',
+            background: projectData.asset_project.background ?? 'Cours',
+            x: projectData.asset_project.x ?? null,
+            y: projectData.asset_project.y ?? null,
+          });
         }
+      }
       } catch (err) {
         console.error(err);
       }
@@ -107,33 +183,30 @@ export default function WorkspacePage() {
     fetchProjectData();
   }, [projectId]);
 
+  /*useEffect(() => {
+    const assetString = projectData.asset_project;
+    console.log(assetString)
+    try {
+      const asset = JSON.parse(assetString); // 🛑 PARSER la chaîne
+      console.log(asset)
+      setVisualState({
+        sprite: asset.sprite || 'Homme', // Fournir un fallback
+        background: asset.background || 'Cours', // Fournir un fallback
+        x: asset.x,
+        y: asset.y
+      });
+      console.log(visualState)
+      setAssetInitialized(true);
+    } catch (e) {
+      console.error("Error loading and parsing asset_project:", e);
+      // Si le parsing échoue (si c'est null ou malformé), on initialise les valeurs par défaut
+      setAssetInitialized(true);
+    }
+  }, [projectId, projectData, assetInitialized]);
+
   console.log(projectData)
 
-  // Fonction pour sauvegarder les données du projet dans Supabase
-  const saveProjectData = async (dataToSave) => {
-    if (!projectId || !dataToSave) return;
-      try {
-          const { error } = await supabase
-              .from("student_project")
-              .update({ project_data: dataToSave, updated_at: new Date() })
-              .eq("id_project", projectId);
 
-          if (error) throw error;
-          console.log("Auto-save successful.");
-      } catch (err) {
-          console.error("Error during auto-save:", err.message);
-      }
-  };
-
-  const autoSave = () => {
-    const jsonString = assemblyRef.current?.saveWorkspace();
-    if (jsonString) {
-        saveProjectData(jsonString);
-    }
-  };
-
-
- 
   return (
     <div>
       {fromEducator ? (
@@ -153,10 +226,11 @@ export default function WorkspacePage() {
 
         <button
           className="back-button"
-          onClick={() =>
+          onClick={() =>{
+            autoSave()
             navigate(`/projects/${student?.id_student}`, {
               state: { fromEducator }
-            })
+            })}
           }
         >
           retour à liste
@@ -177,22 +251,273 @@ export default function WorkspacePage() {
 
           <aside className="right-column">
             <ExecutionArea
-              selectedSprite={selectedSprite} 
-              selectedBackground={selectedBackground}
-              // Vous devrez passer les objets d'assets réels ici
-              spritePath={IconAssets[selectedSprite]} 
-              backgroundPath={DecorAssets[selectedBackground]}
+              selectedSprite={visualState.sprite}
+              spritePath={IconAssets[visualState.sprite]}
+              backgroundPath={DecorAssets[visualState.background]}
+              spriteX={visualState.x}
+              spriteY={visualState.y}
+              onSpritePositionChange={handleSpritePositionChange}
             />
-                
-            {/* 🚀 Passer les gestionnaires d'événements à AssetList */}
             <AssetList 
-              selectedSprite={selectedSprite}
-              selectedBackground={selectedBackground}
+              selectedSprite={visualState.sprite}
+              selectedBackground={visualState.background}
               onSpriteSelect={handleSpriteSelect}
               onBackgroundSelect={handleBackgroundSelect}
-              allIconAssets={Object.keys(IconAssets)} // Liste des noms
-              allDecorAssets={Object.keys(DecorAssets)} // Liste des noms
+              allIconAssets={Object.keys(IconAssets)}
+              allDecorAssets={Object.keys(DecorAssets)}
               iconAssetMap={IconAssets} 
+              decorAssetMap={DecorAssets}
+            />
+          </aside>
+        </main>
+      </div>
+    </div>
+  );
+}
+*/
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
+import { useEducator } from "../context/EducatorContext";
+import AssemblyArea from "../components/AssemblyArea";
+import ExecutionArea from "../components/ExecutionArea";
+import AssetList from "../components/AssetList";
+import "../css/Workspace.css";
+import NavBarStudent from '../components/NavbarStudent';
+import NavBarproject from "../components/Navbarproject";
+import start from "../assets/images/start.png";
+import stop from "../assets/images/stop.png";
+import { toolboxJson } from "../components/Blockly/ToolBox";
+import * as DecorAssets from '../assets/images/decors';
+import * as IconAssets from '../assets/images/icones';
+
+export default function WorkspacePage() {
+  const assemblyRef = useRef(null);
+  const { session_status, rangeType, handleChangeStatus } = useEducator();
+  const { studentId, projectId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const fromEducator = location.state?.fromEducator || false;
+
+  const [loading, setLoading] = useState(true);
+  const [projectData, setProjectData] = useState(null);
+  const [student, setStudent] = useState(null);
+
+  const [visualState, setVisualState] = useState({
+    sprite: "Homme",
+    background: "Default",
+    x: null,
+    y: null,
+  });
+
+  const spritePositionRef = useRef({ x: null, y: null });
+
+  // ----------------- Sauvegarde -----------------
+  const saveProjectData = async (dataToSave) => {
+    if (!projectId || !dataToSave) return;
+    try {
+      const { error } = await supabase
+        .from("student_project")
+        .update({ project_data: dataToSave, updated_at: new Date() })
+        .eq("id_project", projectId);
+      if (error) throw error;
+      console.log("Project data auto-saved.");
+    } catch (err) {
+      console.error("Error during project auto-save:", err.message);
+    }
+  };
+
+  const saveAssetProject = async (assetData) => {
+    if (!projectId || !assetData) return;
+    try {
+      const { error } = await supabase
+        .from("student_project")
+        .update({ asset_project: assetData, updated_at: new Date() })
+        .eq("id_project", projectId);
+      console.log(assetData)
+      if (error) throw error;
+      console.log("Asset project saved.");
+    } catch (err) {
+      console.error("Error saving asset project:", err.message);
+    }
+  };
+
+  const autoSave = useCallback((stateOverride = null) => {
+    const jsonString = assemblyRef.current?.saveWorkspace();
+    if (jsonString) saveProjectData(jsonString);
+    saveAssetProject(stateOverride || visualState);
+  }, [visualState]);
+
+  // ----------------- Handlers -----------------
+  const handleSpriteSelect = (name) => {
+    setVisualState(prev => {
+      const updated = { ...prev, sprite: name };
+      autoSave(updated); // Sauvegarde immédiate
+      return updated;
+    });
+  };
+
+  const handleBackgroundSelect = (name) => {
+    setVisualState(prev => {
+      const updated = { ...prev, background: name };
+      autoSave(updated); // Sauvegarde immédiate
+      return updated;
+    });
+  };
+
+  const handleSpritePositionChange = (x, y) => {
+    spritePositionRef.current = { x, y };
+    setVisualState(prev => {
+      const updated = { ...prev, x, y };
+      autoSave(updated); // Sauvegarde immédiate
+      return updated;
+    });
+  };
+
+  console.log(visualState)
+  // ----------------- Initialisation -----------------
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const { data: studentData, error: studentError } = await supabase
+          .from("student")
+          .select("id_student, student_firstname, student_lastname, id_educator")
+          .eq("id_student", studentId)
+          .single();
+        if (studentError || !studentData) return navigate("/");
+
+        setStudent(studentData);
+
+        if (!fromEducator) {
+          const { data: educator, error: educatorError } = await supabase
+            .from("educator")
+            .select("session_status")
+            .eq("id_educator", studentData.id_educator)
+            .single();
+          if (educatorError || !educator?.session_status) return navigate("/");
+        }
+
+        // Récupération des données du projet
+        const { data: projectList, error: projectError } = await supabase
+          .from("student_project")
+          .select("*")
+          .eq("id_project", projectId);
+
+        if (projectError || !projectList || projectList.length === 0) return navigate("/");
+
+        const project = projectList[0];
+        setProjectData(project);
+
+        // Charger asset_project
+        let assetData = { sprite: "Homme", background: "Default", x: null, y: null };
+        if (project.asset_project) {
+          try {
+            assetData = typeof project.asset_project === "string"
+              ? JSON.parse(project.asset_project)
+              : project.asset_project;
+          } catch (e) {
+            console.error("Error parsing asset_project:", e);
+          }
+        }
+
+        setVisualState({
+          sprite: assetData.sprite || "Homme",
+          background: assetData.background || "Default",
+          x: assetData.x?? 5,
+          y: assetData.y?? 120,
+        });
+
+        setLoading(false);
+
+      } catch (err) {
+        console.error(err);
+        navigate("/");
+      }
+    };
+
+    checkSession();
+  }, [studentId, projectId, navigate, fromEducator]);
+
+  // ----------------- Auto-save périodique -----------------
+  useEffect(() => {
+    if (loading) return;
+    const interval = setInterval(autoSave, 10000);
+    const handleBeforeUnload = () => autoSave();
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      autoSave();
+    };
+  }, [autoSave, loading]);
+
+  if (loading) return <div className="loading">Chargement...</div>;
+
+  // ----------------- Rendu -----------------
+  return (
+    <div>
+      {fromEducator ? (
+        <NavBarproject
+          session_status={session_status}
+          handleChangeStatus={handleChangeStatus}
+          rangeType={rangeType}
+        />
+      ) : (
+        <NavBarStudent />
+      )}
+
+      <div className="header-line">
+        <p className="welcome-text">
+          <strong>
+            {projectData?.project_title} - {student?.student_firstname} {student?.student_lastname}
+          </strong>
+        </p>
+
+        <button
+          className="back-button"
+          onClick={() => {
+            autoSave();
+            navigate(`/projects/${student?.id_student}`, { state: { fromEducator } });
+          }}
+        >
+          retour à liste
+        </button>
+      </div>
+
+      <div className="workspace-page">
+        <div className="exec-controls">
+          <img src={start} alt="start button" className="exec-btn-start" />
+          <img src={stop} alt="stop button" className="exec-btn-stop" />
+        </div>
+
+        <main className="workspace-main">
+          <section className="left-column">
+            <AssemblyArea
+              ref={assemblyRef}
+              toolbox={toolboxJson}
+              initialWorkspaceData={projectData?.project_data}
+            />
+          </section>
+
+          <aside className="right-column">
+            <ExecutionArea
+              selectedSprite={visualState.sprite}
+              spritePath={IconAssets[visualState.sprite]}
+              backgroundPath={DecorAssets[visualState.background]}
+              spriteX={visualState.x}
+              spriteY={visualState.y}
+              onSpritePositionChange={handleSpritePositionChange}
+            />
+
+            <AssetList
+              selectedSprite={visualState.sprite}
+              selectedBackground={visualState.background}
+              onSpriteSelect={handleSpriteSelect}
+              onBackgroundSelect={handleBackgroundSelect}
+              allIconAssets={Object.keys(IconAssets)}
+              allDecorAssets={Object.keys(DecorAssets)}
+              iconAssetMap={IconAssets}
               decorAssetMap={DecorAssets}
             />
           </aside>

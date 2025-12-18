@@ -20,7 +20,6 @@ const AssetPopup = ({ isOpen, onClose, title, assetNames, assetMap, onSelect, ty
         <div className="popup-backdrop">
             <div className="asset-popup">
                 <div className="popup-header">
-                    <h2>Choisir un {title}</h2>
                     <button className="close-btn" onClick={onClose}>&times;</button>
                 </div>
                 
@@ -42,10 +41,9 @@ const AssetPopup = ({ isOpen, onClose, title, assetNames, assetMap, onSelect, ty
                                         // S'assurer que le fond est bien cover/contain
                                         style={type === 'background' ? { objectFit: 'cover', width: '100%', height: '100%' } : {}}
                                     />
-                                ) : (
-                                    <span className="asset-name-fallback">{name}</span>
+                                ) : (''
                                 )}
-                                <span className="asset-name">{name}</span>
+
                             </div>
                         );
                     })}
