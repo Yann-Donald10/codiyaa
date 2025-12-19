@@ -60,10 +60,8 @@ export default function ExecutionArea({
     );
 
 
-    // ✅ SOURCE DE VÉRITÉ
     spritePosRef.current = { x: newX, y: newY };
 
-    // Affichage
     setSpriteState(prev => ({
       ...prev,
       x: newX,

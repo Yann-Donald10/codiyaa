@@ -3,12 +3,26 @@ import * as Blockly from "blockly/core";
 import "blockly/blocks";
 import "blockly/javascript";
 import { CustomCategory } from "./Blockly/CustomCategory.js";
-import './Blockly/CustomBlock.js'
 import * as Fr from 'blockly/msg/fr';
+import {
+  registerEventBlocks,
+  registerMovementBlocks,
+  registerOperationBlocks,
+  registerSoundBlocks,
+  registerConditionBlocks
+} from "../components/Blockly/blocks";
 
 const AssemblyArea = forwardRef(({ toolbox,  initialWorkspaceData }, ref) => {
   const blocklyDivRef = useRef(null);
   const workspaceRef = useRef(null);
+  
+  useEffect(() => {
+    registerEventBlocks(Blockly);
+    registerMovementBlocks(Blockly);
+    registerOperationBlocks(Blockly);
+    registerSoundBlocks(Blockly);
+    registerConditionBlocks(Blockly);
+  }, []);
 
   useImperativeHandle(ref, () => ({
     addBlock: (type, x = 50, y = 50) => {
@@ -57,6 +71,14 @@ const AssemblyArea = forwardRef(({ toolbox,  initialWorkspaceData }, ref) => {
       workspaceRef.current?.dispose();
     };
   }, [toolbox,  initialWorkspaceData]);
+
+  useEffect(() => {
+    const resize = () => {
+      if (workspaceRef.current) Blockly.svgResize(workspaceRef.current);
+    };
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
 
   const loadWorkspace = (jsonString) => {
         if (!workspaceRef.current || !jsonString) return;
