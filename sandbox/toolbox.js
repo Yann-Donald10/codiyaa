@@ -1,5 +1,6 @@
-export const toolboxJson = {
- kind: "categoryToolbox",
+function getToolbox() {
+  return {
+    kind: "categoryToolbox",
     contents: [
       {
         kind: "category",
@@ -53,4 +54,5 @@ export const toolboxJson = {
         ]
       }
     ]
-};
+  };
+}
