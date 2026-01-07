@@ -31,6 +31,15 @@ export default function WorkspacePage() {
   const [projectData, setProjectData] = useState(null);
   const [student, setStudent] = useState(null);
   const interpreterRef = useRef(null);
+  
+  const executionRef = useRef(null);
+
+  useEffect(() => {
+    if (executionRef.current) {
+      runtimeApi.bindSprite(executionRef.current);
+    }
+  }, [executionRef.current]);
+
 
 
   const [visualState, setVisualState] = useState({
@@ -183,31 +192,44 @@ export default function WorkspacePage() {
   }, [autoSave, loading]);
 
   const handleStart = () => {
-    const workspace = assemblyRef.current.getWorkspace();
+  if (!executionRef.current) {
+    console.warn("Sprite not ready");
+    return;
+  }
 
-    // 🔥 OBLIGATOIRE : initialiser le générateur
-    javascriptGenerator.init(workspace);
+  executionRef.current.reset();
+  runtimeApi.bindSprite(executionRef.current); // 🔥 ICI
+  runtimeApi.bindInterpreter(interpreterRef.current);
 
-    const topBlocks = workspace.getTopBlocks(true);
-    let code = '';
+  interpreterRef.current?.stop();
 
-    topBlocks.forEach(block => {
-      if (block.type === 'event_start') {
-        code += javascriptGenerator.blockToCode(block);
-      }
-    });
+  const workspace = assemblyRef.current?.getWorkspace();
+  if (!workspace) return;
 
-    console.log("Generated code:\n", code);
+  javascriptGenerator.init(workspace);
 
-    interpreterRef.current = new BlocklyInterpreter(runtimeApi);
-    interpreterRef.current.run(code);
-  };
+  const startBlock = workspace
+    .getTopBlocks(true)
+    .find(b => b.type === "event_start");
+
+  if (!startBlock) return;
+
+  const first = startBlock.getNextBlock();
+  if (!first) return;
+
+  const code = javascriptGenerator.blockToCode(first);
+  console.log("Generated code:\n", code);
+
+  interpreterRef.current = new BlocklyInterpreter(runtimeApi);
+  interpreterRef.current.run(code);
+};
+
 
 
 
 
   const handleStop = () => {
-    interpreterRef.current?.stop();
+    runtimeApi.stopProgram();
   };
 
 
@@ -262,6 +284,7 @@ export default function WorkspacePage() {
 
           <aside className="right-column">
             <ExecutionArea
+            ref={executionRef}
               selectedSprite={visualState.sprite}
               spritePath={IconAssets[visualState.sprite]}
               backgroundPath={DecorAssets[visualState.background]}

@@ -1,22 +1,25 @@
+// src/components/engine/interpreter.js
+
 class BlocklyInterpreter {
   constructor(runtimeApi) {
-    this.runtimeApi = runtimeApi;
+    this.api = runtimeApi;
     this.running = false;
   }
 
-  run(code) {
+  async run(code) {
     this.running = true;
 
     try {
-      // Le code généré appelle des fonctions runtime (move, playSound, etc.)
-      const func = new Function("api", `
-        if (!this.running) return;
-        ${code}
+      const fn = new Function("api", `
+        return (async () => {
+          ${code}
+        })();
       `);
 
-      func(this.runtimeApi);
+      await fn(this.api);
     } catch (err) {
-      console.error("Erreur d'exécution:", err);
+      console.error("Erreur d'exécution :", err);
+      this.running = false;
     }
   }
 

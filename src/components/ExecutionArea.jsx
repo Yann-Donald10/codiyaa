@@ -1,20 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle  } from "react";
 
-export default function ExecutionArea({
+const ExecutionArea = forwardRef(({
   selectedSprite,
   spritePath,
   backgroundPath,
   spriteX,
   spriteY,
   onSpritePositionChange
-}) {
+}, ref) => {
   const [spriteState, setSpriteState] = useState({
     x: 0,
     y: 0,
     rotation: 0
   });
 
+  const initialStateRef = useRef({
+    x: 0,
+    y: 0,
+    rotation: 0
+  });
+
   const spriteRef = useRef(null);
+  const audioRef = useRef(null);
   const spritePosRef = useRef({ x: 0, y: 0 });
   const isDraggingRef = useRef(false);
 
@@ -92,18 +99,106 @@ export default function ExecutionArea({
     };
   }, [offset]);
 
-  // 🔄 Sync depuis WorkspacePage (chargement DB)
+  // 🔄 Sync depuis WorkspacePage + mémorisation état initial
   useEffect(() => {
     if (spriteX === null || spriteY === null) return;
 
+    const initial = {
+      x: spriteX,
+      y: spriteY,
+      rotation: 0
+    };
+
+    // mémorise le point de départ
+    initialStateRef.current = initial;
+
     spritePosRef.current = { x: spriteX, y: spriteY };
 
-    setSpriteState(prev => ({
-      ...prev,
-      x: spriteX,
-      y: spriteY
-    }));
+    // applique visuellement
+    setSpriteState(initial);
   }, [spriteX, spriteY]);
+
+
+  const runningRef = useRef(true);
+
+  useImperativeHandle(ref, () => ({
+    moveForward(steps) {
+      return new Promise(resolve => {
+        if (!runningRef.current) return resolve();
+        setSpriteState(prev => ({
+          ...prev,
+          x: prev.x + steps
+        }));
+        setTimeout(resolve, 1000);
+      });
+    },
+
+    turnRight(angle) {
+      return new Promise(resolve => {
+        if (!runningRef.current) return resolve();
+        setSpriteState(prev => ({
+          ...prev,
+          rotation: prev.rotation + angle
+        }));
+        setTimeout(resolve, 1000);
+      });
+    },
+    
+    turnLeft(angle) {
+      return new Promise(resolve => {
+        if (!runningRef.current) return resolve();
+        setSpriteState(prev => ({
+          ...prev,
+          rotation: prev.rotation - angle
+        }));
+        setTimeout(resolve, 1000);
+      });
+    },
+
+    playSound(name) {
+      return new Promise(resolve => {
+        if (!name || !runningRef.current) return resolve();
+
+        const audio = new Audio(`/sounds/${name}.mp3`);
+        audioRef.current = audio; // On stocke l'audio actuel
+
+        const cleanup = () => {
+          audioRef.current = null;
+          resolve();
+        };
+
+        audio.addEventListener('ended', cleanup);
+        audio.addEventListener('error', cleanup);
+
+        audio.play().catch(err => {
+          console.warn(err);
+          cleanup();
+        });
+      });
+    },
+
+    stopProgram() {
+      runningRef.current = false;
+
+      if (audioRef.current) {
+        audioRef.current.pause();   // stop la lecture
+        audioRef.current.currentTime = 0; // remettre à 0 pour repartir
+        audioRef.current = null;    // reset référence
+      }
+    },
+
+    reset() {
+      runningRef.current = true;
+
+      setSpriteState({
+        ...initialStateRef.current
+      });
+    },
+
+    isRunning() {
+      return runningRef.current;
+    }
+  }));
 
   return (
     <div className="execution-wrapper">
@@ -133,7 +228,8 @@ export default function ExecutionArea({
                 top: spriteState.y,
                 width: SPRITE_SIZE,
                 height: SPRITE_SIZE,
-                cursor: isDraggingRef.current ? "grabbing" : "grab"
+                cursor: isDraggingRef.current ? "grabbing" : "grab",
+                transform: `rotate(${spriteState.rotation}deg)`
               }}
             />
           )}
@@ -141,4 +237,6 @@ export default function ExecutionArea({
       </div>
     </div>
   );
-}
+});
+
+export default ExecutionArea;

@@ -1,12 +1,13 @@
 import { javascriptGenerator } from "blockly/javascript";
-export function registerSoundGenerators(Blockly) {
 
-  javascriptGenerator.forBlock['sound_play'] = function(block) {
-    const sound = block.getFieldValue('SOUND');
-    return `playSound("${sound}");\n`;
+export function registerSoundGenerators() {
+
+  javascriptGenerator.forBlock['sound_play'] = block => {
+    const name = block.getFieldValue('SOUND');
+    return `await api.playSound("${name}");\n`;
   };
 
-  javascriptGenerator.forBlock['sound_stop_all'] = function() {
-    return `stopAllSounds();\n`;
+  javascriptGenerator.forBlock['sound_stop_all'] = function () {
+    return `await api.stopProgram();\n`;
   };
 }

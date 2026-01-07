@@ -1,33 +1,29 @@
 import { javascriptGenerator } from "blockly/javascript";
-export function registerMovementGenerators(Blockly) {
 
-  // ▶️ Avancer
-  javascriptGenerator.forBlock['move_forward'] = function(block) {
-    const steps = block.getFieldValue('STEPS');
-    return `moveForward(${steps});\n`;
+export function registerMovementGenerators() {
+  javascriptGenerator.forBlock['move_forward'] = function (block) {
+    const steps = block.getFieldValue('STEPS') || 10;
+    return `await api.moveForward(${steps});\n`;
   };
 
-  // ◀️ Reculer
-  javascriptGenerator.forBlock['move_backward'] = function(block) {
-    const steps = block.getFieldValue('STEPS');
-    return `moveBackward(${steps});\n`;
+  javascriptGenerator.forBlock['move_backward'] = function (block) {
+    const steps = block.getFieldValue('STEPS') || 10;
+    return `await api.moveBackward(${steps});\n`;
   };
 
-  // ↻ Tourner à droite
-  javascriptGenerator.forBlock['turn_right'] = function(block) {
-    const angle = block.getFieldValue('ANGLE');
-    return `turnRight(${angle});\n`;
+  javascriptGenerator.forBlock['turn_right'] = function (block) {
+    const angle = block.getFieldValue('ANGLE') || 90;
+    return `await api.turnRight(${angle});\n`;
   };
 
-  // ↺ Tourner à gauche
-  javascriptGenerator.forBlock['turn_left'] = function(block) {
-    const angle = block.getFieldValue('ANGLE');
-    return `turnLeft(${angle});\n`;
+  javascriptGenerator.forBlock['turn_left'] = function (block) {
+    const angle = block.getFieldValue('ANGLE') || 90;
+    return `await api.turnLeft(${angle});\n`;
   };
 
-  // ◎ Aller à un point
-  javascriptGenerator.forBlock['go_to'] = function(block) {
-    const target = block.getFieldValue('TARGET');
-    return `goTo("${target}");\n`;
+  javascriptGenerator.forBlock['go_to'] = function (block) {
+    const target = block.getFieldValue('TARGET') || "A";
+    return `await api.goTo("${target}");\n`;
   };
 }
+// Usage: Call registerMovementGenerators() during Blockly initialization to set up the custom generators.

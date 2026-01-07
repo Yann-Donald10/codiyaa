@@ -1,18 +1,60 @@
+// src/components/engine/runtimeApi.js
+
 const runtimeApi = {
+  spriteRef: null,
+  interpreterRef: null,
+
+  /* ========================
+     BINDINGS
+  ======================== */
+
+  bindSprite(ref) {
+    this.spriteRef = ref;
+  },
+
+  bindInterpreter(interpreter) {
+    this.interpreterRef = interpreter;
+  },
+
+  /* ========================
+     ACTIONS SPRITE
+  ======================== */
+
   moveForward(steps) {
-    console.log("Move forward", steps);
+    return this.spriteRef?.moveForward(steps);
   },
 
   turnRight(angle) {
-    console.log("Turn right", angle);
+    return this.spriteRef?.turnRight(angle);
+  },
+
+  turnLeft(angle) {
+    return this.spriteRef?.turnLeft(angle);
+  },
+
+  moveBackward(steps) {
+    return this.spriteRef?.moveForward(-steps);
   },
 
   playSound(name) {
-    console.log("Play sound", name);
+    this.spriteRef?.playSound(name);
   },
 
-  changeSprite(name) {
-    console.log("Change sprite", name);
+  /* ========================
+     CONTROL
+  ======================== */
+
+  stopProgram() {
+    // stop JS execution
+    this.interpreterRef?.stop();
+
+    // stop sprite animations if needed
+    this.spriteRef?.stopProgram?.();
+  },
+
+  onStart(callback) {
+    this.spriteRef?.reset?.();
+    callback();
   }
 };
 
