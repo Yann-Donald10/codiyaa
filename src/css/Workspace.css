@@ -39,26 +39,7 @@ body {
   gap:8px; 
 }
 
-/*.workspace-area {
-  display: flex;
-  flex-direction: column;
-  flex: 1; 
-  position: relative;
-  padding: 8px;
-  border-radius: 6px;
-  border: 2px solid #ddd;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
-  background: radial-gradient(#ccc 1px, transparent 1px);
-  background-size: 20px 20px;
-  
-}
 
-.workspace-area > .blocklyDiv,
-.workspace-area > .injectionDiv {
-  width: 100%;
-  height: 100%;
-  flex: 1;
-}*/
 
 .workspace-area .blocklySvg {
   width: 100%;
@@ -98,7 +79,7 @@ body {
 .right-column { 
   display:flex; 
   flex-direction:column; 
-  gap:8px; 
+  /*gap:8px; */
 }
 
 /* Ligne contenant les deux boutons */
@@ -129,19 +110,7 @@ body {
   filter: brightness(1.1);
 }
 
-/*.execution-area { 
-  background: white;  
-  border-radius: 6px;
-  border: 2px solid #ddd;
-  padding:8px; 
-  box-shadow: 0 8px 18px rgba(0,0,0,0.06); 
-  min-height: 350px;
-  display:flex; 
-  flex-direction:column; 
-  flex: 2;
-  position: relative;
 
-}*/
 
 .execution-area { 
   background: white;  
@@ -152,9 +121,8 @@ body {
   min-height: 350px;
   flex-shrink: 0; /* Empêche l’écrasement sur petit écran */
   position: relative;
-  width: 650px;      /* Largeur fixe */
-  height: 350px;     /* Hauteur fixe */
-
+  flex: 1;
+  width: 100%;
 }
 
 
@@ -165,25 +133,19 @@ body {
 }
 
 .execution-wrapper {
-    flex: 2; 
+    flex: 1; 
     display: flex; 
     flex-direction: column; 
 }
 
-/*Assets sidebar under execution area */
-/* Conteneur côte à côte 
-.assets-wrapper {
-  display: flex;
-  gap: 14px;
-  margin-top: 8px;
-  flex: 1;
-  max-height: 200px ;
-}*/
+
 
 .assets-wrapper {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   margin-top: 8px;
+  max-width: 100%;
+  justify-content: space-between;
 }
 
 /* Tes panneaux */
@@ -195,7 +157,6 @@ body {
   padding: 12px;
   box-shadow: 0 8px 18px rgba(0,0,0,0.06);
   flex: 1;
-  max-height: 200px; /* Exemple de hauteur maximale pour le panneau */
   display: flex;
   flex-direction: column;
   overflow: hidden; /* Cache tout ce qui dépasse, le défilement sera sur .assets-list */
@@ -223,7 +184,6 @@ body {
 }
 
 .asset-card {
-  background: #fffdf9;
   padding: 8px 10px;
   border-radius: 6px;
   border: 2px solid #ddd;
@@ -235,7 +195,7 @@ body {
     /* 🚀 CORRECTION : Définir la taille fixe ici (CSS) */
     width: 5rem; 
     height: 5rem; 
-    object-fit: cover; 
+    object-fit: contain; 
 }
 
 .execution-placeholder {
@@ -253,8 +213,7 @@ body {
     /* Mettre l'élément en surbrillance */
     border: 2px solid #4a1d0b; /* Bordure plus épaisse et de couleur thématique */
     box-shadow: 0 0 0 2px rgba(74, 29, 11, 0.5); /* Anneau autour du bouton */
-    background: #fff8f0; /* Légèrement coloré */
-    font-weight: 600;
+
 }
 
 .asset-card:hover {
@@ -464,3 +423,4 @@ body {
     height: 70px;
     margin-bottom: 4px;
 }
+

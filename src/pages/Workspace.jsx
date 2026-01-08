@@ -182,6 +182,7 @@ export default function WorkspacePage() {
     const ws = assemblyRef.current?.getWorkspace();
     if (!ws) return;
 
+    console.log("🎵 setupBlocklyCategoryAudio initialisé");
     const cleanup = setupBlocklyCategoryAudio(ws);
     return cleanup;
   }, [assemblyRef.current]);

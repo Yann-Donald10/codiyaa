@@ -23,19 +23,71 @@ export function setupBlocklyCategoryAudio(workspace) {
     }
 
     audioRef = new Audio(src);
+    console.log(`🔊 Son joué pour: ${categoryName} (${src})`);
     audioRef.play().catch(err => console.warn(err));
   };
 
-  // Blockly émet cet event quand une catégorie est ouverte
-  const listener = workspace.addChangeListener((event) => {
+  const handleBlockSelected = (blockType) => {
+    const blockAudioMap = {
+      "event_start": "/sounds/types/evenements.mp3",
+      "event_stop": "/sounds/types/evenements.mp3",
+      "event_change_sprite": "/sounds/types/evenements.mp3",
+      "event_change_background": "/sounds/types/evenements.mp3",
+      "move_forward": "/sounds/types/mouvement.mp3",
+      "move_backward": "/sounds/types/mouvement.mp3",
+      "turn_right": "/sounds/types/mouvement.mp3",
+      "turn_left": "/sounds/types/mouvement.mp3",
+      "go_to": "/sounds/types/mouvement.mp3",
+      "op_add": "/sounds/types/operations.mp3",
+      "op_sub": "/sounds/types/operations.mp3",
+      "op_compare": "/sounds/types/operations.mp3",
+      "sound_play": "/sounds/types/son.mp3",
+      "sound_stop_all": "/sounds/types/son.mp3",
+      "ctrl_if": "/sounds/types/conditions.mp3",
+      "ctrl_repeat": "/sounds/types/conditions.mp3"
+    };
+
+    const src = blockAudioMap[blockType];
+    if (!src) return;
+
+    // Stop audio précédent
+    if (audioRef) {
+      audioRef.pause();
+      audioRef.currentTime = 0;
+    }
+
+    audioRef = new Audio(src);
+    console.log(`🔊 Son bloc joué pour: ${blockType} (${src})`);
+    audioRef.play().catch(err => console.warn(err));
+  };
+
+  // Listener pour sélection de catégorie
+  const categoryListener = workspace.addChangeListener((event) => {
     if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
-      handleCategorySelected(event.name);
+      const categoryName = event.newItem;
+      console.log("✅ Catégorie sélectionnée:", categoryName);
+      if (categoryName) {
+        handleCategorySelected(categoryName);
+      }
+    }
+  });
+
+  // Listener pour sélection de bloc
+  const blockListener = workspace.addChangeListener((event) => {
+    if (event.type === Blockly.Events.BLOCK_SELECT) {
+      const blockId = event.blockId;
+      const block = workspace.getBlockById(blockId);
+      if (block) {
+        console.log("✅ Bloc sélectionné:", block.type);
+        handleBlockSelected(block.type);
+      }
     }
   });
 
   // Cleanup
   return () => {
-    workspace.removeChangeListener(listener);
+    workspace.removeChangeListener(categoryListener);
+    workspace.removeChangeListener(blockListener);
     if (audioRef) {
       audioRef.pause();
       audioRef.currentTime = 0;
