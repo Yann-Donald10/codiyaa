@@ -8,15 +8,18 @@ export function registerEventGenerators() {
     return "";
   };
 
-  javascriptGenerator.forBlock["event_stop"] = function () {
-    return `api.stopProgram();\n`;
+  javascriptGenerator.forBlock["event_stop"] = function (block) {
+    const blockId = block.id;
+    return `api.highlightBlock('${blockId}'); api.stopProgram();\n`;
   };
 
-  javascriptGenerator.forBlock["event_change_sprite"] = function () {
-    return `api.changeSprite();\n`;
+  javascriptGenerator.forBlock["event_change_sprite"] = function (block) {
+    const blockId = block.id;
+    return `api.highlightBlock('${blockId}'); api.changeSprite();\n`;
   };
 
-  javascriptGenerator.forBlock["event_change_background"] = function () {
-    return `api.changeBackground();\n`;
+  javascriptGenerator.forBlock["event_change_background"] = function (block) {
+    const blockId = block.id;
+    return `api.highlightBlock('${blockId}'); api.changeBackground();\n`;
   };
 }

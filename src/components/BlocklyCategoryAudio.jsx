@@ -1,10 +1,12 @@
 import * as Blockly from "blockly/core";
 
 
-export function setupBlocklyCategoryAudio(workspace) {
+export function setupBlocklyCategoryAudio(workspace, audioEnabled = true) {
   let audioRef = null;
 
   const handleCategorySelected = (categoryName) => {
+    if (!audioEnabled) return; // Si audio désactivé, ne pas jouer
+    
     const audioMap = {
       "Événements": "/sounds/types/evenements.mp3",
       "Mouvement": "/sounds/types/mouvement.mp3",
@@ -28,6 +30,8 @@ export function setupBlocklyCategoryAudio(workspace) {
   };
 
   const handleBlockSelected = (blockType) => {
+    if (!audioEnabled) return; // Si audio désactivé, ne pas jouer
+    
     const blockAudioMap = {
       "event_start": "/sounds/types/evenements.mp3",
       "event_stop": "/sounds/types/evenements.mp3",
@@ -74,8 +78,9 @@ export function setupBlocklyCategoryAudio(workspace) {
 
   // Listener pour sélection de bloc
   const blockListener = workspace.addChangeListener((event) => {
-    if (event.type === Blockly.Events.BLOCK_SELECT) {
-      const blockId = event.blockId;
+    if (event.type === "selected") {
+      const blockId = event.newElementId; // C'est newElementId, pas blockId !
+      if (!blockId) return;
       const block = workspace.getBlockById(blockId);
       if (block) {
         console.log("✅ Bloc sélectionné:", block.type);

@@ -110,6 +110,21 @@ body {
   filter: brightness(1.1);
 }
 
+.audio-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  padding: 4px;
+  margin-right: auto; /* Pousse le bouton à gauche */
+}
+
+.audio-toggle-btn:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
 
 
 .execution-area { 
