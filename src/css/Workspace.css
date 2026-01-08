@@ -90,6 +90,10 @@ body {
   gap: 15px;
 }
 
+.audio-toggle-btn {
+  margin-right: auto;
+}
+
 /* Style pour les icônes Start/Stop */
 .exec-btn-start {
   width: 26px;
@@ -106,21 +110,6 @@ body {
 }
 
 .exec-btn-stop:hover, .exec-btn-start:hover {
-  transform: scale(1.1);
-  filter: brightness(1.1);
-}
-
-.audio-toggle-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease;
-  padding: 4px;
-  margin-right: auto; /* Pousse le bouton à gauche */
-}
-
-.audio-toggle-btn:hover {
   transform: scale(1.1);
   filter: brightness(1.1);
 }
@@ -392,24 +381,41 @@ body {
 
 .popup-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 20px;
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
+    gap: 10px;
 }
 
 .popup-header h2 {
     margin: 0;
     font-size: 20px;
+    flex-grow: 1;
 }
 
 .close-btn {
-    background: none;
+    background: #dc3545;
     border: none;
-    font-size: 24px;
+    font-size: 18px;
     cursor: pointer;
-    color: #333;
+    color: white;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    transition: background-color 0.2s;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.close-btn:hover {
+    background-color: #c82333;
 }
 
 /* Grille des assets à l'intérieur du pop-up */

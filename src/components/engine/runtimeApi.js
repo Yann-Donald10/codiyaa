@@ -3,6 +3,7 @@
 const runtimeApi = {
   spriteRef: null,
   interpreterRef: null,
+  currentAudio: null,
 
   /* ========================
      BINDINGS
@@ -37,7 +38,24 @@ const runtimeApi = {
   },
 
   playSound(name) {
-    this.spriteRef?.playSound(name);
+    // Arrête le son précédent s'il y en a un
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+      this.currentAudio = null;
+    }
+
+    return new Promise((resolve) => {
+      const audio = new Audio(`/sounds/${name}.mp3`);
+      this.currentAudio = audio;
+      audio.onended = () => {
+        this.currentAudio = null;
+        resolve();
+      };
+      audio.play().catch(() => {
+        this.currentAudio = null;
+        resolve();
+      });
+    });
   },
 
   /* ========================
@@ -45,6 +63,13 @@ const runtimeApi = {
   ======================== */
 
   stopProgram() {
+    // Arrête le son en cours
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+      this.currentAudio.currentTime = 0;
+      this.currentAudio = null;
+    }
+
     // stop JS execution
     this.interpreterRef?.stop();
 
