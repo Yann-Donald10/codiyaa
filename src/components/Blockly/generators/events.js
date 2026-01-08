@@ -1,0 +1,22 @@
+// eventGenerators.js
+import { javascriptGenerator } from "blockly/javascript";
+
+export function registerEventGenerators() {
+
+  // START = point d'entrée visuel seulement
+  javascriptGenerator.forBlock["event_start"] = function () {
+    return "";
+  };
+
+  javascriptGenerator.forBlock["event_stop"] = function () {
+    return `api.stopProgram();\n`;
+  };
+
+  javascriptGenerator.forBlock["event_change_sprite"] = function () {
+    return `api.changeSprite();\n`;
+  };
+
+  javascriptGenerator.forBlock["event_change_background"] = function () {
+    return `api.changeBackground();\n`;
+  };
+}
