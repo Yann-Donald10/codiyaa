@@ -56,6 +56,33 @@ function registerMovementBlocks(Blockly) {
     </svg>
   `);
 
+  const ICON_ARROW_UP = svgToDataUri(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="44" viewBox="0 0 52 44">
+      <path d="M26 34 V14" stroke="#3A1D0B" stroke-width="5" stroke-linecap="round"/>
+      <path d="M16 20 L26 10 L36 20"
+        fill="none"
+        stroke="#3A1D0B"
+        stroke-width="5"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </svg>
+  `);
+
+  const ICON_ARROW_DOWN = svgToDataUri(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="44" viewBox="0 0 52 44">
+      <path d="M26 10 V30" stroke="#3A1D0B" stroke-width="5" stroke-linecap="round"/>
+      <path d="M16 24 L26 34 L36 24"
+        fill="none"
+        stroke="#3A1D0B"
+        stroke-width="5"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </svg>
+  `);
+
+
+
+
   function makeMinus(onClick) {
     return new Blockly.FieldImage(ICON_MINUS, 22, 22, "−", onClick);
   }
@@ -184,6 +211,46 @@ function registerMovementBlocks(Blockly) {
       this.extensions = ["codiyaa_pattern_movement"];
     },
   };
+
+
+    Blockly.Blocks["move_up"] = {
+    init: function () {
+      this.setColour("#C9A227");
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setInputsInline(true);
+
+      const steps = new Blockly.FieldCodiyaaStepper(10, 1, 999, 1);
+
+      this.appendDummyInput()
+        .appendField(makeIcon(ICON_ARROW_UP, "monter"))
+        .appendField(makeMinus(() => steps.bump(-1)))
+        .appendField(steps, "STEPS")
+        .appendField(makePlus(() => steps.bump(+1)));
+
+      this.extensions = ["codiyaa_pattern_movement"];
+    }
+  };
+
+  Blockly.Blocks["move_down"] = {
+    init: function () {
+      this.setColour("#C9A227");
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setInputsInline(true);
+
+      const steps = new Blockly.FieldCodiyaaStepper(10, 1, 999, 1);
+
+      this.appendDummyInput()
+        .appendField(makeIcon(ICON_ARROW_DOWN, "descendre"))
+        .appendField(makeMinus(() => steps.bump(-1)))
+        .appendField(steps, "STEPS")
+        .appendField(makePlus(() => steps.bump(+1)));
+
+      this.extensions = ["codiyaa_pattern_movement"];
+    }
+  };
+
 
   // go_to inchangé
   Blockly.defineBlocksWithJsonArray([
