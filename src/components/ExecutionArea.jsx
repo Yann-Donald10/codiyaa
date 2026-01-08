@@ -29,7 +29,7 @@ const ExecutionArea = forwardRef(({
   const areaRef = useRef(null);
 
   const SPRITE_SIZE_LONG = 200;
-  const SPRITE_SIZE_LARGE = 150;
+  const SPRITE_SIZE_LARGE = 170;
 
   const handleDragStart = (e) => {
     if (!spritePath) return;
