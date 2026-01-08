@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Codiyaa — Blockly Sandbox</title>
+  <style>
+    body { margin:0; font-family: system-ui, Arial; background:#faf7f2; }
+    header { padding: 12px 16px; font-weight: 700; }
+    #blocklyDiv { height: calc(100vh - 52px); width: 100vw; }
+  </style>
+  <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+</head>
+<body>
+  <header>Codiyaa — Sandbox blocs (POC)</header>
+  <div id="blocklyDiv"></div>
+
+  <script src="./blocks/events.js"></script>
+  <script src="./blocks/movement.js"></script>
+  <script src="./blocks/operations.js"></script>
+  <script src="./blocks/sound.js"></script>
+  <script src="./blocks/conditions.js"></script>
+
+  <script src="./toolbox.js"></script>
+  <script src="./main.js"></script>
+</body>
+</html>
