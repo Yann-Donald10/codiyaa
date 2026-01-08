@@ -28,7 +28,7 @@ const ExecutionArea = forwardRef(({
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const areaRef = useRef(null);
 
-  const SPRITE_SIZE = 100;
+  const SPRITE_SIZE = 200;
 
   const handleDragStart = (e) => {
     if (!spritePath) return;
