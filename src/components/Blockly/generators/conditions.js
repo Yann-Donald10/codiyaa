@@ -11,10 +11,9 @@ export function registerConditionGenerators() {
   };
 
   javascriptGenerator.forBlock['ctrl_repeat'] = function (block) {
-    const times =
-      javascriptGenerator.valueToCode(block, 'N', javascriptGenerator.ORDER_NONE) || 1;
+  const times = block.getFieldValue('N') || 1;
+  const statements = javascriptGenerator.statementToCode(block, 'DO');
 
-    const statements = javascriptGenerator.statementToCode(block, 'DO');
-    return `for (let i = 0; i < ${times}; i++) {\n${statements}}\n`;
-  };
+  return `for (let i = 0; i < ${times}; i++) {\n${statements}}\n`;
+};
 }

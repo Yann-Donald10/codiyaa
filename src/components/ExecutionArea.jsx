@@ -125,9 +125,10 @@ const ExecutionArea = forwardRef(({
     moveForward(steps) {
       return new Promise(resolve => {
         if (!runningRef.current) return resolve();
+        const distance = steps * 10;
         setSpriteState(prev => ({
           ...prev,
-          x: prev.x + steps
+          x: prev.x + distance
         }));
         setTimeout(resolve, 1000);
       });
@@ -174,6 +175,7 @@ const ExecutionArea = forwardRef(({
           console.warn(err);
           cleanup();
         });
+        setTimeout(resolve, 3000);
       });
     },
 

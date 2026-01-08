@@ -17,6 +17,7 @@ import * as Blockly from "blockly/core";
 import { javascriptGenerator } from "blockly/javascript";
 import BlocklyInterpreter from "../components/engine/interpreter";
 import runtimeApi from "../components/engine/runtimeApi";
+import { setupBlocklyCategoryAudio } from "../components/BlocklyCategoryAudio";
 
 
 export default function WorkspacePage() {
@@ -176,6 +177,15 @@ export default function WorkspacePage() {
 
     checkSession();
   }, [studentId, projectId, navigate, fromEducator]);
+
+  useEffect(() => {
+    const ws = assemblyRef.current?.getWorkspace();
+    if (!ws) return;
+
+    const cleanup = setupBlocklyCategoryAudio(ws);
+    return cleanup;
+  }, [assemblyRef.current]);
+
 
   // ----------------- Auto-save périodique -----------------
   useEffect(() => {
