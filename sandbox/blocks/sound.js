@@ -1,5 +1,6 @@
 // sandbox/blocks/sound.js
-// Blocs Son (Codiyaa) — dropdown visuel (icônes only) + menu en ligne
+// Blocs Son (Codiyaa) — dropdown visuel (icônes only) + menu horizontal
+// FIX: fromJson + valeur par défaut + ne casse pas le drag (pas de capture pointer)
 
 function registerSoundBlocks(Blockly) {
   const svgToDataUri = (svg) =>
@@ -52,14 +53,13 @@ function registerSoundBlocks(Blockly) {
     </svg>
   `);
 
-  // --- Style: menu en LIGNE, uniquement pour ce dropdown ---
+  // CSS menu horizontal (scope: uniquement dropdown son)
   (function ensureSoundDropdownCss() {
     const id = "codiyaa-sound-dropdown-css";
     if (document.getElementById(id)) return;
     const style = document.createElement("style");
     style.id = id;
     style.textContent = `
-      /* scope: uniquement quand on ouvre le dropdown son */
       .blocklyDropDownDiv.codiyaa-sound-dropdown .blocklyMenu {
         display: flex !important;
         gap: 14px !important;
@@ -83,46 +83,55 @@ function registerSoundBlocks(Blockly) {
     document.head.appendChild(style);
   })();
 
-  // --- FieldDropdown custom: ajoute une classe au dropdown div pendant l’ouverture ---
+  // Field dropdown custom (icônes only) + tag CSS sans casser le drag
   if (!Blockly.FieldCodiyaaSoundDropdown) {
     class FieldCodiyaaSoundDropdown extends Blockly.FieldDropdown {
-      constructor() {
-        // Options "images only"
+      constructor(value = "tamtam") {
         const options = [
           [{ src: ICON_ROOSTER, width: 28, height: 28, alt: "" }, "animal"],
           [{ src: ICON_DRUM, width: 28, height: 28, alt: "" }, "tamtam"],
           [{ src: ICON_FLAG, width: 28, height: 28, alt: "" }, "anthem"],
         ];
         super(options);
+        this.setValue(value);
+      }
+
+      static fromJson(options) {
+        return new FieldCodiyaaSoundDropdown(options?.value || "tamtam");
       }
 
       showEditor_() {
         super.showEditor_();
 
-        // Ajoute la classe sur le container dropdown (et la retire à la fermeture)
-        const contentDiv = Blockly.DropDownDiv.getContentDiv();
-        const dropDownRoot = contentDiv && contentDiv.parentElement;
-        if (dropDownRoot) {
+        // IMPORTANT: ne pas toucher aux events -> sinon "souris collée"
+        setTimeout(() => {
+          const contentDiv = Blockly.DropDownDiv.getContentDiv();
+          const dropDownRoot = contentDiv && contentDiv.parentElement;
+          if (!dropDownRoot) return;
+
           dropDownRoot.classList.add("codiyaa-sound-dropdown");
           Blockly.DropDownDiv.onHide(() => {
             dropDownRoot.classList.remove("codiyaa-sound-dropdown");
           });
-        }
+        }, 0);
       }
     }
 
     Blockly.FieldCodiyaaSoundDropdown = FieldCodiyaaSoundDropdown;
-    Blockly.fieldRegistry.register("field_codiyaa_sound_dropdown", FieldCodiyaaSoundDropdown);
+    Blockly.fieldRegistry.register(
+      "field_codiyaa_sound_dropdown",
+      FieldCodiyaaSoundDropdown
+    );
   }
 
-  // --- Blocks ---
+  // Blocks
   Blockly.defineBlocksWithJsonArray([
     {
       type: "sound_play",
       message0: "%1 %2",
       args0: [
         { type: "field_image", src: ICON_SPEAKER, width: 26, height: 22, alt: "" },
-        { type: "field_codiyaa_sound_dropdown", name: "SOUND" },
+        { type: "field_codiyaa_sound_dropdown", name: "SOUND", value: "tamtam" },
       ],
       previousStatement: null,
       nextStatement: null,
