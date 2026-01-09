@@ -23,7 +23,7 @@ export class CustomCategory extends Blockly.ToolboxCategory {
   /** Cache le texte */
   createLabelDom_(name) {
     const label = super.createLabelDom_(name);
-    label.style.display = "none"; // 👈 PLUS DE TEXTE
+    label.style.display = "none"; 
     return label;
   }
 
