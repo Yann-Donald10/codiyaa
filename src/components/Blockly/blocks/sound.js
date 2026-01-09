@@ -6,7 +6,7 @@ export function registerSoundBlocks(Blockly) {
   const ORANGE = "#F59E0B";
 
   /* =========================
-     ICÔNES
+     ICÔNES PRINCIPALES
   ========================= */
 
   const ICON_SPEAKER = svgToDataUri(`
@@ -25,34 +25,52 @@ export function registerSoundBlocks(Blockly) {
     </svg>
   `);
 
+  /* =========================
+     ICÔNES DROPDOWN (IDENTIQUES SANDBOX)
+  ========================= */
+
   const ICON_ROOSTER = svgToDataUri(`
     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-      <path d="M9 8c1-2 3-3 5-2 1 0 2 1 2 2 0 1-1 2-2 2" fill="none" stroke="${BROWN}" stroke-width="2"/>
-      <path d="M7 10c-1 1-1 3 0 4 1 1 3 1 4 0" fill="none" stroke="${BROWN}" stroke-width="2"/>
-      <circle cx="16.5" cy="8.5" r="1" fill="${BROWN}"/>
+      <path d="M9 8c1-2 3-3 5-2 1 0 2 1 2 2 0 1-1 2-2 2"
+            fill="none" stroke="${BROWN}" stroke-width="2" stroke-linecap="round"/>
+      <path d="M7 10c-1 1-1 3 0 4 1 1 3 1 4 0"
+            fill="none" stroke="${BROWN}" stroke-width="2" stroke-linecap="round"/>
+      <path d="M11 14c1 1 3 2 5 1 2-1 2-3 1-5"
+            fill="none" stroke="${BROWN}" stroke-width="2" stroke-linecap="round"/>
+      <path d="M10 18v3M14 18v3"
+            stroke="${BROWN}" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="16.5" cy="8.5" r="0.9" fill="${BROWN}"/>
     </svg>
   `);
 
   const ICON_DRUM = svgToDataUri(`
     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
       <ellipse cx="12" cy="7" rx="7" ry="3" fill="none" stroke="${BROWN}" stroke-width="2"/>
-      <path d="M5 7v10c0 2 14 2 14 0V7" fill="none" stroke="${BROWN}" stroke-width="2"/>
+      <path d="M5 7v10c0 2 14 2 14 0V7"
+            fill="none" stroke="${BROWN}" stroke-width="2"/>
+      <path d="M7 5l-2-2M17 5l2-2"
+            stroke="${BROWN}" stroke-width="2" stroke-linecap="round"/>
     </svg>
   `);
 
   const ICON_FLAG = svgToDataUri(`
     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
-      <path d="M6 21V4" stroke="${BROWN}" stroke-width="2"/>
-      <path d="M6 5c3-2 5 2 8 0s5 2 8 0v9c-3 2-5-2-8 0s-5-2-8 0"
-        fill="none" stroke="${BROWN}" stroke-width="2"/>
+      <path d="M6 21V4"
+            stroke="${BROWN}" stroke-width="2" stroke-linecap="round"/>
+      <path d="M6 5c3-2 5 2 8 0s5 2 8 0v9
+               c-3 2-5-2-8 0s-5-2-8 0"
+            fill="none" stroke="${BROWN}" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M9 16c2 0 3 2 5 2"
+            stroke="${BROWN}" stroke-width="2" stroke-linecap="round"/>
     </svg>
   `);
 
   /* =========================
-     CSS dropdown horizontal
+     CSS DROPDOWN HORIZONTAL
   ========================= */
+
   (function injectCss() {
-    const id = "codiyaa-sound-css";
+    const id = "codiyaa-sound-dropdown-css";
     if (document.getElementById(id)) return;
 
     const style = document.createElement("style");
@@ -79,13 +97,14 @@ export function registerSoundBlocks(Blockly) {
   /* =========================
      FIELD DROPDOWN CUSTOM
   ========================= */
+
   if (!Blockly.FieldCodiyaaSoundDropdown) {
     class FieldCodiyaaSoundDropdown extends Blockly.FieldDropdown {
       constructor(value = "tamtam") {
         super([
+          [{ src: ICON_ROOSTER, width: 28, height: 28, alt: "" }, "animal"],
           [{ src: ICON_DRUM, width: 28, height: 28, alt: "" }, "tamtam"],
           [{ src: ICON_FLAG, width: 28, height: 28, alt: "" }, "anthem"],
-          [{ src: ICON_ROOSTER, width: 28, height: 28, alt: "" }, "animal"],
         ]);
         this.setValue(value);
       }
@@ -97,11 +116,11 @@ export function registerSoundBlocks(Blockly) {
       showEditor_() {
         super.showEditor_();
 
-        // ⚠️ PAS de onHide (non supporté)
+        // Pas de onHide (non supporté)
         setTimeout(() => {
-          const root = Blockly.DropDownDiv.getContentDiv()?.parentElement;
-          if (!root) return;
-          root.classList.add("codiyaa-sound");
+          const root =
+            Blockly.DropDownDiv.getContentDiv()?.parentElement;
+          if (root) root.classList.add("codiyaa-sound");
         }, 0);
       }
     }
@@ -114,8 +133,9 @@ export function registerSoundBlocks(Blockly) {
   }
 
   /* =========================
-     BLOCKS (generator-safe)
+     BLOCKS
   ========================= */
+
   Blockly.defineBlocksWithJsonArray([
     {
       type: "sound_play",
