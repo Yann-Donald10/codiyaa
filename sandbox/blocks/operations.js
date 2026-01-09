@@ -8,7 +8,8 @@ function registerOperationBlocks(Blockly) {
         { type: "input_value", name: "B" }
       ],
       output: "Number",
-      colour: "#F6D365"
+      colour: "#F6D365",
+      extensions: ["codiyaa_pattern_operations"]
     },
     {
       type: "op_sub",
@@ -18,7 +19,8 @@ function registerOperationBlocks(Blockly) {
         { type: "input_value", name: "B" }
       ],
       output: "Number",
-      colour: "#F6D365"
+      colour: "#F6D365",
+      extensions: ["codiyaa_pattern_operations"]
     },
     {
       type: "op_compare",
@@ -28,7 +30,8 @@ function registerOperationBlocks(Blockly) {
         { type: "input_value", name: "B" }
       ],
       output: "Boolean",
-      colour: "#F6D365"
+      colour: "#F6D365",
+      extensions: ["codiyaa_pattern_operations"]
     }
   ]);
 }

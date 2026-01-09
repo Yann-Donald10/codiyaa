@@ -290,11 +290,14 @@ export default function WorkspacePage() {
       <div className="workspace-page">
         <div className="exec-controls">
           <button 
-            onClick={() => setAudioEnabled(!audioEnabled)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setAudioEnabled(!audioEnabled);
+            }}
             className="audio-toggle-btn"
             title={audioEnabled ? "Désactiver le son" : "Activer le son"}
           >
-            {audioEnabled ? <img src={volume} onClick={handleStart} alt="start button" className="exec-btn-start" /> : <img src={volumeDown} alt="stop button" onClick={handleStop} className="exec-btn-stop" />}
+            {audioEnabled ? <img src={volume}  alt="start button" className="exec-btn-start" /> : <img src={volumeDown} alt="stop button" className="exec-btn-stop" />}
           </button>
           <img src={start} onClick={handleStart} alt="start button" className="exec-btn-start" />
           <img src={stop} alt="stop button" onClick={handleStop} className="exec-btn-stop" />
