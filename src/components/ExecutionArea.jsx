@@ -28,7 +28,8 @@ const ExecutionArea = forwardRef(({
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const areaRef = useRef(null);
 
-  const SPRITE_SIZE = 100;
+  const SPRITE_SIZE_LONG = 200;
+  const SPRITE_SIZE_LARGE = 170;
 
   const handleDragStart = (e) => {
     if (!spritePath) return;
@@ -228,8 +229,8 @@ const ExecutionArea = forwardRef(({
                 position: "absolute",
                 left: spriteState.x,
                 top: spriteState.y,
-                width: SPRITE_SIZE,
-                height: SPRITE_SIZE,
+                width: SPRITE_SIZE_LARGE,
+                height: SPRITE_SIZE_LONG,
                 cursor: isDraggingRef.current ? "grabbing" : "grab",
                 transform: `rotate(${spriteState.rotation}deg)`
               }}

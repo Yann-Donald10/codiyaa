@@ -1,11 +1,14 @@
 // sandbox/main.js
 
-// 1) importer les fichiers (simple en dev : on les charge via <script>)
-// Donc dans main.js on suppose qu'ils existent en global.
-// -> Solution simple : on met aussi <script src="./blocks/movement.js"></script> etc.
-// (je te donne juste après)
+// 0) init motifs + extensions + hook renderer
+initCodiyaaMotifs(Blockly, {
+  bandH: 20,
+  tileW: 140,
+  tileH: 40,
+  opacity: 1
+});
 
-// 1) Enregistrer tous les blocs (1 fichier = 1 fonction)
+// 1) Enregistrer tous les blocs
 registerEventBlocks(Blockly);
 registerMovementBlocks(Blockly);
 registerOperationBlocks(Blockly);
@@ -20,7 +23,4 @@ const workspace = Blockly.inject("blocklyDiv", {
   zoom: { controls: true, wheel: true }
 });
 
-// (option) rendre accessible pour debug
 window.__workspace = workspace;
-
-

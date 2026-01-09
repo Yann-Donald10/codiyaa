@@ -10,6 +10,8 @@ import NavBarStudent from '../components/NavbarStudent';
 import NavBarproject from "../components/Navbarproject";
 import start from "../assets/images/start.png";
 import stop from "../assets/images/stop.png";
+import volume from "../assets/images/volume.png";
+import volumeDown from "../assets/images/volume_coupe.png";
 import { toolboxJson } from "../components/Blockly/ToolBox";
 import * as DecorAssets from '../assets/images/decors';
 import * as IconAssets from '../assets/images/icones';
@@ -31,6 +33,7 @@ export default function WorkspacePage() {
   const [loading, setLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
   const [student, setStudent] = useState(null);
+  const [audioEnabled, setAudioEnabled] = useState(true);
   const interpreterRef = useRef(null);
   
   const executionRef = useRef(null);
@@ -182,9 +185,10 @@ export default function WorkspacePage() {
     const ws = assemblyRef.current?.getWorkspace();
     if (!ws) return;
 
-    const cleanup = setupBlocklyCategoryAudio(ws);
+    console.log("🎵 setupBlocklyCategoryAudio initialisé");
+    const cleanup = setupBlocklyCategoryAudio(ws, audioEnabled);
     return cleanup;
-  }, [assemblyRef.current]);
+  }, [assemblyRef.current, audioEnabled]);
 
 
   // ----------------- Auto-save périodique -----------------
@@ -211,10 +215,16 @@ export default function WorkspacePage() {
   runtimeApi.bindSprite(executionRef.current); // 🔥 ICI
   runtimeApi.bindInterpreter(interpreterRef.current);
 
-  interpreterRef.current?.stop();
-
   const workspace = assemblyRef.current?.getWorkspace();
   if (!workspace) return;
+
+  // Ajoute une fonction pour mettre en surbrillance le bloc en cours
+  runtimeApi.highlightBlock = (blockId) => {
+    console.log("🌟 Highlight block:", blockId);
+    workspace.highlightBlock(blockId);
+  };
+
+  interpreterRef.current?.stop();
 
   javascriptGenerator.init(workspace);
 
@@ -279,6 +289,16 @@ export default function WorkspacePage() {
 
       <div className="workspace-page">
         <div className="exec-controls">
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              setAudioEnabled(!audioEnabled);
+            }}
+            className="audio-toggle-btn"
+            title={audioEnabled ? "Désactiver le son" : "Activer le son"}
+          >
+            {audioEnabled ? <img src={volume}  alt="start button" className="exec-btn-start" /> : <img src={volumeDown} alt="stop button" className="exec-btn-stop" />}
+          </button>
           <img src={start} onClick={handleStart} alt="start button" className="exec-btn-start" />
           <img src={stop} alt="stop button" onClick={handleStop} className="exec-btn-stop" />
         </div>
