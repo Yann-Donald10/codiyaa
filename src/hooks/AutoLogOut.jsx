@@ -1,15 +1,18 @@
 import { useEffect } from "react";
 import { supabase } from "../lib/supabaseClient";
 
-function useAutoLogout(timeout = 2 * 60 * 60 * 1000) { // 2h
+function useAutoLogout(timeout = 2 * 60 * 60 * 1000, navigate)  {
   useEffect(() => {
     let timer;
 
     const resetTimer = () => {
       clearTimeout(timer);
-      timer = setTimeout(() => {
-        supabase.auth.signOut();
+      timer = setTimeout(async () => {
+        await supabase.auth.signOut();
         alert("Vous avez été déconnecté pour inactivité.");
+
+        // Optionnel (la protection de routes suffit déjà)
+        if (navigate) navigate("/");
       }, timeout);
     };
 
@@ -17,7 +20,7 @@ function useAutoLogout(timeout = 2 * 60 * 60 * 1000) { // 2h
     window.addEventListener("keydown", resetTimer);
     window.addEventListener("scroll", resetTimer);
 
-    resetTimer(); // démarrer timer au chargement
+    resetTimer();
 
     return () => {
       clearTimeout(timer);
@@ -25,7 +28,7 @@ function useAutoLogout(timeout = 2 * 60 * 60 * 1000) { // 2h
       window.removeEventListener("keydown", resetTimer);
       window.removeEventListener("scroll", resetTimer);
     };
-  }, [timeout]);
+  }, [timeout, navigate]);
 }
 
 export default useAutoLogout;

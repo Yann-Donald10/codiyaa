@@ -4,6 +4,7 @@ import "blockly/blocks";
 import "blockly/javascript";
 import { CustomCategory } from "./Blockly/CustomCategory.js";
 import * as Fr from 'blockly/msg/fr';
+
 import {
   registerEventBlocks,
   registerMovementBlocks,
@@ -11,6 +12,14 @@ import {
   registerSoundBlocks,
   registerConditionBlocks
 } from "../components/Blockly/blocks";
+
+import {
+  registerEventGenerators,
+  registerMovementGenerators,
+  registerOperationGenerators,
+  registerSoundGenerators,
+  registerConditionGenerators
+} from "../components/Blockly/generators";
 
 const AssemblyArea = forwardRef(({ toolbox,  initialWorkspaceData }, ref) => {
   const blocklyDivRef = useRef(null);
@@ -22,6 +31,14 @@ const AssemblyArea = forwardRef(({ toolbox,  initialWorkspaceData }, ref) => {
     registerOperationBlocks(Blockly);
     registerSoundBlocks(Blockly);
     registerConditionBlocks(Blockly);
+  }, []);
+
+  useEffect(() => {
+    registerEventGenerators(Blockly);
+    registerMovementGenerators(Blockly);
+    registerOperationGenerators(Blockly);
+    registerSoundGenerators(Blockly);
+    registerConditionGenerators(Blockly);
   }, []);
 
   useImperativeHandle(ref, () => ({
