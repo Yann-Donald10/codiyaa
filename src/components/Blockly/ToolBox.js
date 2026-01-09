@@ -10,7 +10,7 @@ export const toolboxJson = {
           { kind: "block", type: "event_start" },
           { kind: "block", type: "event_stop" },
           { kind: "block", type: "event_change_sprite" },
-          { kind: "block", type: "event_change_background" }
+          //{ kind: "block", type: "event_change_background" }
         ]
       },
       {
@@ -23,6 +23,8 @@ export const toolboxJson = {
           { kind: "block", type: "move_backward" },
           { kind: "block", type: "turn_right" },
           { kind: "block", type: "turn_left" },
+          { kind: "block", type: "move_up" },
+          { kind: "block", type: "move_down" },
           { kind: "block", type: "go_to" }
         ]
       },
@@ -32,9 +34,11 @@ export const toolboxJson = {
         colour: "#F6D365", // jaune plus clair (avant oranges)
         icon: "operation",
         contents: [
+          { kind: "block", type: "codiyaa_number" },
           { kind: "block", type: "op_add" },
           { kind: "block", type: "op_sub" },
-          { kind: "block", type: "op_compare" }
+          { kind: "block", type: "op_gt" },
+          { kind: "block", type: "op_lt" },
         ]
       },
       {

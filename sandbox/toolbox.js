@@ -22,6 +22,8 @@ function getToolbox() {
           { kind: "block", type: "move_backward" },
           { kind: "block", type: "turn_right" },
           { kind: "block", type: "turn_left" },
+          { kind: "block", type: "move_up" },
+          { kind: "block", type: "move_down" },
           { kind: "block", type: "go_to" }
         ]
       },
@@ -30,9 +32,11 @@ function getToolbox() {
         name: "Opérations",
         colour: "#F6D365", // jaune plus clair (avant oranges)
         contents: [
+          { kind: "block", type: "codiyaa_number" },
           { kind: "block", type: "op_add" },
           { kind: "block", type: "op_sub" },
-          { kind: "block", type: "op_compare" }
+          { kind: "block", type: "op_gt" },
+          { kind: "block", type: "op_lt" },
         ]
       },
       {
