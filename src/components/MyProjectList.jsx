@@ -35,6 +35,7 @@ export default function Workspace(props) {
                     project_status,
                     project_data,
                     created_at,
+                    updated_at,
                     id_scenario,
                     scenario:scenarios (
                       scenario_title,
@@ -95,6 +96,7 @@ export default function Workspace(props) {
           project_status,
           project_data,
           created_at,
+          updated_at,
           id_scenario,
           scenario:scenarios (
             scenario_title,
@@ -147,7 +149,15 @@ export default function Workspace(props) {
     }
   };
 
-  
+  const formatDateTime = (dateString) => {
+    return new Intl.DateTimeFormat("fr-FR", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(dateString));
+  };  
 
   return (
     <div>
@@ -163,27 +173,39 @@ export default function Workspace(props) {
       {projectList?.length === 0 && <p>Aucun projet pour le moment.</p>}
 
       <div className="projects-grid">
-        {projectList?.map((project) => (
+        {projectList
+        ?.slice()
+        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+        .map((project) => (
           <div key={project.id_project} className="project-card">
-          <Link to={`/projects/${studentId}/workspace/${project.id_project}`} className="project-link">
-            <img
-              src={project.scenario?.scenario_image 
-                ? `/${project.scenario.scenario_image}`
-                : defaultimage
-              }
-              alt={project.scenario?.scenario_title || "Scénario"}
-              className="project-image"
-            />
+            <Link
+              to={`/projects/${studentId}/workspace/${project.id_project}`}
+              state={{ fromEducator }}
+              className="project-link"
+            >
+              <img
+                src={
+                  project.scenario?.scenario_image
+                    ? `/${project.scenario.scenario_image}`
+                    : defaultimage
+                }
+                alt={project.scenario?.scenario_title || "Scénario"}
+                className="project-image"
+              />
 
-            <h3>{project.project_title}</h3>
-            <p>Scénario : {project.scenario?.scenario_title}</p>
-          </Link>
-            {fromEducator ?(
-            <button
-              className="delete-btn"
-              onClick={() => confirmDelete(project)}>
-              ✖
-            </button>) : ("")}
+              <h3>{project.project_title}</h3>
+              <p>Scénario : {project.scenario?.scenario_title}</p>
+              <p>Dernière modification : {formatDateTime(project.updated_at)}</p>
+            </Link>
+
+            {fromEducator && (
+              <button
+                className="delete-btn"
+                onClick={() => confirmDelete(project)}
+              >
+                ✖
+              </button>
+            )}
           </div>
         ))}
         <div className="add-project-wrapper">
