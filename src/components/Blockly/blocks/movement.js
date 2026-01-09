@@ -65,18 +65,36 @@ export function registerMovementBlocks(Blockly) {
     </svg>
   `);
 
+  // 🆕 UP / DOWN
+  const ICON_ARROW_UP = svgToDataUri(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="44" viewBox="0 0 52 44">
+      <path d="M26 34 V14" stroke="#3A1D0B" stroke-width="5" stroke-linecap="round"/>
+      <path d="M16 20 L26 10 L36 20" fill="none"
+            stroke="#3A1D0B" stroke-width="5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `);
+
+  const ICON_ARROW_DOWN = svgToDataUri(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="44" viewBox="0 0 52 44">
+      <path d="M26 10 V30" stroke="#3A1D0B" stroke-width="5" stroke-linecap="round"/>
+      <path d="M16 24 L26 34 L36 24" fill="none"
+            stroke="#3A1D0B" stroke-width="5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `);
+
   /* =========================================================
-     Champs custom (Stepper & Angle)
+     Champs custom
      ========================================================= */
   if (!Blockly.FieldCodiyaaStepper) {
     class FieldCodiyaaStepper extends Blockly.FieldNumber {
       constructor(value = 10, min = 1, max = 999, precision = 1) {
         super(value, min, max, precision);
       }
-      showEditor_() {} // désactive saisie clavier
+      showEditor_() {}
       bump(delta) {
-        const cur = Number(this.getValue()) || 0;
-        this.setValue(cur + delta);
+        this.setValue((Number(this.getValue()) || 0) + delta);
       }
     }
     Blockly.FieldCodiyaaStepper = FieldCodiyaaStepper;
@@ -91,9 +109,8 @@ export function registerMovementBlocks(Blockly) {
       showEditor_() {}
       bump(delta) {
         const cur = Number(this.getValue()) || 90;
-        const idx = this.ANGLES.indexOf(cur);
-        const start = idx >= 0 ? idx : 4;
-        const next = (start + delta + this.ANGLES.length) % this.ANGLES.length;
+        const i = this.ANGLES.indexOf(cur);
+        const next = (i + delta + this.ANGLES.length) % this.ANGLES.length;
         this.setValue(String(this.ANGLES[next]));
       }
     }
@@ -105,45 +122,35 @@ export function registerMovementBlocks(Blockly) {
      ========================================================= */
   const icon = (src, alt) => new Blockly.FieldImage(src, 26, 22, alt);
   const minus = (cb) => new Blockly.FieldImage(ICON_MINUS, 22, 22, "−", cb);
-  const plus = (cb) => new Blockly.FieldImage(ICON_PLUS, 22, 22, "+", cb);
+  const plus  = (cb) => new Blockly.FieldImage(ICON_PLUS, 22, 22, "+", cb);
 
   /* =========================================================
      BLOCS
      ========================================================= */
 
-  Blockly.Blocks["move_forward"] = {
-    init() {
-      this.setColour("#C9A227");
-      this.setPreviousStatement(true);
-      this.setNextStatement(true);
-      this.setInputsInline(true);
+  const makeMoveBlock = (type, iconSrc, label) => {
+    Blockly.Blocks[type] = {
+      init() {
+        this.setColour("#C9A227");
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setInputsInline(true);
 
-      const steps = new Blockly.FieldCodiyaaStepper(10);
+        const steps = new Blockly.FieldCodiyaaStepper(10);
 
-      this.appendDummyInput()
-        .appendField(icon(ICON_ARROW_FWD, "avancer"))
-        .appendField(minus(() => steps.bump(-1)))
-        .appendField(steps, "STEPS")
-        .appendField(plus(() => steps.bump(1)));
-    },
+        this.appendDummyInput()
+          .appendField(icon(iconSrc, label))
+          .appendField(minus(() => steps.bump(-1)))
+          .appendField(steps, "STEPS")
+          .appendField(plus(() => steps.bump(1)));
+      },
+    };
   };
 
-  Blockly.Blocks["move_backward"] = {
-    init() {
-      this.setColour("#C9A227");
-      this.setPreviousStatement(true);
-      this.setNextStatement(true);
-      this.setInputsInline(true);
-
-      const steps = new Blockly.FieldCodiyaaStepper(10);
-
-      this.appendDummyInput()
-        .appendField(icon(ICON_ARROW_BWD, "reculer"))
-        .appendField(minus(() => steps.bump(-1)))
-        .appendField(steps, "STEPS")
-        .appendField(plus(() => steps.bump(1)));
-    },
-  };
+  makeMoveBlock("move_forward",  ICON_ARROW_FWD,  "avancer");
+  makeMoveBlock("move_backward", ICON_ARROW_BWD,  "reculer");
+  makeMoveBlock("move_up",       ICON_ARROW_UP,   "monter");
+  makeMoveBlock("move_down",     ICON_ARROW_DOWN, "descendre");
 
   Blockly.Blocks["turn_right"] = {
     init() {

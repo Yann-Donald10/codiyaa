@@ -20,6 +20,11 @@ const ExecutionArea = forwardRef(({
     rotation: 0
   });
 
+  const [spriteSize, setSpriteSize] = useState({
+  width: 0,
+  height: 0
+});
+
   const spriteRef = useRef(null);
   const audioRef = useRef(null);
   const spritePosRef = useRef({ x: 0, y: 0 });
@@ -28,8 +33,30 @@ const ExecutionArea = forwardRef(({
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const areaRef = useRef(null);
 
-  const SPRITE_SIZE_LONG = 200;
-  const SPRITE_SIZE_LARGE = 170;
+  //const SPRITE_SIZE_LONG = 200;
+  //const SPRITE_SIZE_LARGE = 170;
+
+  useEffect(() => {
+  if (!areaRef.current) return;
+
+  const updateSpriteSize = () => {
+    const { width, height } = areaRef.current.getBoundingClientRect();
+
+    const spriteWidth = width * 0.30;
+    const spriteHeight = spriteWidth * 1.25; // ratio image
+
+    setSpriteSize({
+      width: spriteWidth,
+      height: spriteHeight
+    });
+  };
+
+  updateSpriteSize();
+
+  window.addEventListener("resize", updateSpriteSize);
+  return () => window.removeEventListener("resize", updateSpriteSize);
+}, []);
+
 
   const handleDragStart = (e) => {
     if (!spritePath) return;
@@ -229,8 +256,10 @@ const ExecutionArea = forwardRef(({
                 position: "absolute",
                 left: spriteState.x,
                 top: spriteState.y,
-                width: SPRITE_SIZE_LARGE,
-                height: SPRITE_SIZE_LONG,
+                width: spriteSize.width,
+                height: spriteSize.height,
+                //width: SPRITE_SIZE_LARGE,
+                //height: SPRITE_SIZE_LONG,
                 cursor: isDraggingRef.current ? "grabbing" : "grab",
                 transform: `rotate(${spriteState.rotation}deg)`
               }}
