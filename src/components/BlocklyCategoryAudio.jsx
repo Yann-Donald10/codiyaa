@@ -41,6 +41,8 @@ export function setupBlocklyCategoryAudio(workspace, audioEnabled = true) {
       "move_backward": "/sounds/types/mouvement.mp3",
       "turn_right": "/sounds/types/mouvement.mp3",
       "turn_left": "/sounds/types/mouvement.mp3",
+      "move_up": "/sounds/types/mouvement.mp3",
+      "move_down": "/sounds/types/mouvement.mp3",
       "go_to": "/sounds/types/mouvement.mp3",
       "op_add": "/sounds/types/operations.mp3",
       "op_sub": "/sounds/types/operations.mp3",
