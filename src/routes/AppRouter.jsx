@@ -10,6 +10,7 @@ import SuccessContact from "../pages/ConctactSuccessPage";
 import ResetPasswordPage from "../pages/ResetPwdPage";
 import UpdatePasswordPage from "../pages/UpdatepwdPage";
 import { useAuth } from '../context/AuthContext'
+import AutoLogoutCall from "./AutoLogoutCall";
 
 const AppRouter = () => {
   const { user, loading } = useAuth()
@@ -18,6 +19,7 @@ const AppRouter = () => {
 
   return (
     <Router>
+      <AutoLogoutCall />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Sucess-Contact" element={<SuccessContact />} />
