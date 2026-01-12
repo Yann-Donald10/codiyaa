@@ -19,6 +19,7 @@ import * as Blockly from "blockly/core";
 import { javascriptGenerator } from "blockly/javascript";
 import BlocklyInterpreter from "../components/engine/interpreter";
 import runtimeApi from "../components/engine/runtimeApi";
+import { createLeveeCouleursScenario } from "../components/engine/scenarios/leveeCouleurs";
 import { setupBlocklyCategoryAudio } from "../components/BlocklyCategoryAudio";
 
 
@@ -35,6 +36,26 @@ export default function WorkspacePage() {
   const [student, setStudent] = useState(null);
   const [audioEnabled, setAudioEnabled] = useState(true);
   const interpreterRef = useRef(null);
+  const [runtimeBackground, setRuntimeBackground] = useState(null);
+  const scenarioRef = useRef(null);
+
+
+  const setScenarioBackground = (bgKey) => {
+    setRuntimeBackground(bgKey);
+  };
+
+  useEffect(() => {
+    const scenario = createLeveeCouleursScenario(
+      runtimeApi,
+      setScenarioBackground
+    );
+
+    scenarioRef.current = scenario;
+    runtimeApi.setScenario(scenario);
+
+    console.log("Scénario levée de couleurs initialisé");
+  }, []);
+
   
   const executionRef = useRef(null);
 
@@ -211,7 +232,11 @@ export default function WorkspacePage() {
     return;
   }
 
+  runtimeApi.onStart(() => {});
+  setRuntimeBackground(null);
+  scenarioRef.current?.reset?.();
   executionRef.current.reset();
+
   runtimeApi.bindSprite(executionRef.current); // 🔥 ICI
   runtimeApi.bindInterpreter(interpreterRef.current);
 
@@ -250,6 +275,7 @@ export default function WorkspacePage() {
 
   const handleStop = () => {
     runtimeApi.stopProgram();
+    //setRuntimeBackground(null);
   };
 
 
@@ -317,7 +343,11 @@ export default function WorkspacePage() {
             ref={executionRef}
               selectedSprite={visualState.sprite}
               spritePath={IconAssets[visualState.sprite]}
-              backgroundPath={DecorAssets[visualState.background]}
+              backgroundPath={
+                runtimeBackground
+                  ? DecorAssets[runtimeBackground]
+                  : DecorAssets[visualState.background]
+              }
               spriteX={visualState.x}
               spriteY={visualState.y}
               onSpritePositionChange={handleSpritePositionChange}

@@ -158,7 +158,7 @@ const ExecutionArea = forwardRef(({
           ...prev,
           x: prev.x + distance
         }));
-        setTimeout(resolve, 1000);
+        setTimeout(resolve, 2000);
       });
     },
 
@@ -169,7 +169,7 @@ const ExecutionArea = forwardRef(({
           ...prev,
           rotation: prev.rotation + angle
         }));
-        setTimeout(resolve, 1000);
+        setTimeout(resolve, 2000);
       });
     },
     
@@ -180,7 +180,7 @@ const ExecutionArea = forwardRef(({
           ...prev,
           rotation: prev.rotation - angle
         }));
-        setTimeout(resolve, 1000);
+        setTimeout(resolve, 2000);
       });
     },
 
