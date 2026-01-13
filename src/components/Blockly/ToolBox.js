@@ -16,7 +16,7 @@ export const toolboxJson = {
       {
         kind: "category",
         name: "Mouvement",
-        colour: "#C9A227", // jaune-or
+        colour: "#F6D365",  // jaune-or
         icon: "movement",
         contents: [
           { kind: "block", type: "move_forward" },
@@ -30,8 +30,18 @@ export const toolboxJson = {
       },
       {
         kind: "category",
+        name: "Son",
+        colour: "#C9A227", // orange clair
+        icon: "sound",
+        contents: [
+          { kind: "block", type: "sound_play" },
+          { kind: "block", type: "sound_stop_all" }
+        ]
+      },
+      {
+        kind: "category",
         name: "Opérations",
-        colour: "#F6D365", // jaune plus clair (avant oranges)
+        colour: "#F59E0B", // jaune plus clair (avant oranges) 
         icon: "operation",
         contents: [
           { kind: "block", type: "codiyaa_number" },
@@ -39,16 +49,6 @@ export const toolboxJson = {
           { kind: "block", type: "op_sub" },
           { kind: "block", type: "op_gt" },
           { kind: "block", type: "op_lt" },
-        ]
-      },
-      {
-        kind: "category",
-        name: "Son",
-        colour: "#F59E0B", // orange clair
-        icon: "sound",
-        contents: [
-          { kind: "block", type: "sound_play" },
-          { kind: "block", type: "sound_stop_all" }
         ]
       },
       {

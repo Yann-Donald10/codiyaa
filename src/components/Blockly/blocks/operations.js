@@ -7,7 +7,7 @@ export function registerOperationBlocks(Blockly) {
     "data:image/svg+xml;utf8," + encodeURIComponent(svg.trim());
 
   const BROWN = "#3A1D0B";
-  const OPS_COLOR = "#F6D365";
+  const OPS_COLOR = "#F59E0B";
 
   const makeOpIcon = (symbol) =>
     svgToDataUri(`
