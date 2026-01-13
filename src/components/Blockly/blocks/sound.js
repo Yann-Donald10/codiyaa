@@ -3,7 +3,7 @@ export function registerSoundBlocks(Blockly) {
     "data:image/svg+xml;utf8," + encodeURIComponent(svg.trim());
 
   const BROWN = "#3A1D0B";
-  const ORANGE = "#F59E0B";
+  const ORANGE = "#C9A227";
 
   /* =========================
      ICÔNES PRINCIPALES
