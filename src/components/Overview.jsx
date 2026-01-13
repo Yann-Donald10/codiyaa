@@ -17,15 +17,12 @@ const Overview = () => {
           <p>
             Codiyaa est une plateforme intuitive pour initier les enfants de 5 à 12
             ans à la pensée informatique, avec des contenus adaptés à leur culture
-            et à leur réalité.
+            et à leurs réalités.
           </p>
 
           <div className="hero-buttons">
             <a href="#contact" className="btn-primary">
               Nous contacter
-            </a>
-            <a href="#features" className="btn-secondary">
-              Découvrir
             </a>
           </div>
         </div>
