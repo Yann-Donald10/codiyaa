@@ -72,7 +72,13 @@ const ProjectList = (props) => {
       </div>
 
       <div className="student-grid">
-        {projects.map((student) => (
+        {[...projects]
+          .sort((a, b) =>
+            a.student_lastname.localeCompare(b.student_lastname, "fr", {
+              sensitivity: "base",
+            })
+          )
+          .map((student) => (
           <article
             key={student.id_student}
             className="student-card"
@@ -88,7 +94,7 @@ const ProjectList = (props) => {
 
               <div className="student-card-body">
                 <h3 className="student-name">
-                  {student.student_firstname} {student.student_lastname}
+                  {student.student_lastname} {student.student_firstname}
                 </h3>
 
                 {session_status && (
