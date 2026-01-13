@@ -39,6 +39,7 @@ export default function WorkspacePage() {
   const [audioEnabled, setAudioEnabled] = useState(true);
   const interpreterRef = useRef(null);
   const [runtimeBackground, setRuntimeBackground] = useState(null);
+  const [runtimeSprite, setRuntimeSprite] = useState(null);
   const scenarioRef = useRef(null);
 
   const scenarioMapping = {
@@ -191,7 +192,7 @@ export default function WorkspacePage() {
         }
 
         // 🔥 3. Créer et enregistrer le scénario runtime
-        const scenarioInstance = scenarioFactory(runtimeApi, setScenarioBackground);
+        const scenarioInstance = scenarioFactory(runtimeApi, setScenarioBackground,setRuntimeSprite, () => visualState.sprite);
         scenarioRef.current = scenarioInstance;
         runtimeApi.setScenario(scenarioInstance);
 
@@ -367,8 +368,14 @@ export default function WorkspacePage() {
           <aside className="right-column">
             <ExecutionArea
             ref={executionRef}
-              selectedSprite={visualState.sprite}
-              spritePath={IconAssets[visualState.sprite]}
+            selectedSprite={
+              runtimeSprite ?? visualState.sprite
+            }
+            spritePath={
+              runtimeSprite
+                ? IconAssets[runtimeSprite]
+                : IconAssets[visualState.sprite]
+            }
               backgroundPath={
                 runtimeBackground
                   ? DecorAssets[runtimeBackground]

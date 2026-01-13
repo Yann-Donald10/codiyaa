@@ -127,6 +127,7 @@ body {
   position: relative;
   flex: 1;
   width: 100%;
+  transition: background-image 0.3s ease-in-out;
 }
 
 
