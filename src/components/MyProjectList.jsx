@@ -136,12 +136,14 @@ export default function Workspace(props) {
         .eq("id_project", projectToDelete.id_project);
 
       if (error) throw error;
+      console.log(projectToDelete.id_project);
 
       // Retirer localement sans recharger
       setProjectList(prev => prev.filter(p => p.id_project !== projectToDelete.id_project));
 
       setShowDeleteModal(false);
       setProjectToDelete(null);
+      console.log("Projet supprimé avec succès");
     } catch (err) {
       console.error(err);
     } finally {
