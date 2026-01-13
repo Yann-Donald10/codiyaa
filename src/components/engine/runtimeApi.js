@@ -4,6 +4,7 @@ const runtimeApi = {
   spriteRef: null,
   interpreterRef: null,
   currentAudio: null,
+  currentScenario: null,
 
   /* ========================
      BINDINGS
@@ -35,6 +36,34 @@ const runtimeApi = {
 
   moveBackward(steps) {
     return this.spriteRef?.moveForward(-steps);
+  },
+
+  setScenario(scenario) {
+    this.currentScenario = scenario;
+  },
+
+  async moveUp(steps) {
+    if (this.currentScenario?.onMoveUp) {
+      await this.currentScenario.onMoveUp(steps);
+    }
+  },
+
+  async moveDown(steps) {
+    if (this.currentScenario?.onMoveDown) {
+      await this.currentScenario.onMoveDown(steps);
+    }
+  },
+
+  sleep(ms) {
+    return new Promise(resolve => {
+      const start = Date.now();
+      const check = () => {
+        if (!this.spriteRef?.isRunning?.() ?? true) return resolve();
+        if (Date.now() - start >= ms) return resolve();
+        requestAnimationFrame(check);
+      };
+      check();
+    });
   },
 
   playSound(name) {
@@ -70,6 +99,10 @@ const runtimeApi = {
       this.currentAudio = null;
     }
 
+    if (this.currentScenario?.onStop) {
+      this.currentScenario.onStop();
+    }
+
     // stop JS execution
     this.interpreterRef?.stop();
 
@@ -79,6 +112,9 @@ const runtimeApi = {
 
   onStart(callback) {
     this.spriteRef?.reset?.();
+    if (this.currentScenario?.onStart) {
+      this.currentScenario.onStart();
+    }
     callback();
   }
 };

@@ -208,13 +208,13 @@ export default function Workspace(props) {
             )}
           </div>
         ))}
-        <div className="add-project-wrapper">
+        {fromEducator && (<div className="add-project-wrapper">
           <button className="btn-new-project" onClick={() => setShowModal(true)}>
             <img
               src={imageAddPorject}
             />
           </button>
-        </div>
+        </div>)}
       </div>
       </div>
       {fromEducator ?

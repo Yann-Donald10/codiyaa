@@ -1,9 +1,9 @@
 /* ===== Section globale ===== */
 
 .student-section {
-  max-width: 1160px;              /* plus large -> 2 à 3 colonnes possibles */
+  /*max-width: 1200px;    ou 1280px / 1400px selon ton design */
   margin: 0 auto;
-  padding: 3rem 1.5rem 4rem;
+  padding: 3rem 2rem 4rem;
 }
 
 /* Titre + bouton "Ajouter un élève" */
@@ -49,19 +49,21 @@
 /* ===== Grille des dossiers ===== */
 
 .student-grid {
-  margin-top: 0.5rem;
   display: grid;
-  /* colonnes réactives : 1 sur petit écran, 2, puis 3 si la place le permet */
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.75rem 1.8rem;
-  justify-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 4rem;   /* espace horizontal (colonnes) */
+  row-gap: 3rem;      /* espace vertical */
+  align-items: stretch;
 }
+
+
 
 /* Carte élève */
 
 .student-card {
   width: 100%;
-  max-width: 360px;               /* plus étroit -> plusieurs cartes par ligne */
+  /*max-width: 360px;*/ 
+  /*max-width: 100%;*/             /* plus étroit -> plusieurs cartes par ligne */
   background: #ffffff;
   border-radius: 20px;
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.06);
@@ -144,5 +146,17 @@
 
   .student-card {
     max-width: 100%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .student-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .student-grid {
+    grid-template-columns: 1fr;
   }
 }
