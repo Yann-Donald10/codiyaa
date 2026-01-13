@@ -30,5 +30,26 @@ export function registerMovementGenerators() {
     const blockId = block.id;
     return `api.highlightBlock('${blockId}'); await api.goTo("${target}");\n`;
   };
+
+  javascriptGenerator.forBlock['move_up'] = function (block) {
+    const steps = Number(block.getFieldValue('STEPS')) || 1;
+    const blockId = block.id;
+
+    return `
+      api.highlightBlock('${blockId}');
+      await api.moveUp(${steps});
+    `;
+  };
+
+  javascriptGenerator.forBlock['move_down'] = function (block) {
+    const steps = Number(block.getFieldValue('STEPS')) || 1;
+    const blockId = block.id;
+
+    return `
+      api.highlightBlock('${blockId}');
+      await api.moveDown(${steps});
+    `;
+  };
+
 }
 // Usage: Call registerMovementGenerators() during Blockly initialization to set up the custom generators.

@@ -3,8 +3,9 @@
   border-color: #4a1d0b;
   border-width: 5px;
   padding: 24px;
-  margin: 5px auto;
-  max-width: 1200px;
+  margin: 15px auto;
+  margin-left: 40px;
+  margin-right: 40px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* ombre pour qu'il se détache */
 }
 

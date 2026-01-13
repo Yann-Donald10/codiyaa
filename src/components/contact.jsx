@@ -79,8 +79,7 @@ const Contact = () => {
       <div className="section-inner" style={{ maxWidth: "640px" }}>
         <h2 className="section-title">Contact</h2>
         <p className="section-text" style={{ marginBottom: "2rem" }}>
-          Parlez-nous de votre projet ou de vos besoins. Nous reviendrons vers vous avec des
-          propositions adaptées à votre contexte.
+          Pour recevoir plus d’informations, laissez-nous vos coordonnées. Nous vous recontacterons dans les plus brefs délais.
         </p>
 
         <form className="contact-form" onSubmit={handleSubmit}>
