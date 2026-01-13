@@ -131,7 +131,7 @@ export function registerMovementBlocks(Blockly) {
   const makeMoveBlock = (type, iconSrc, label) => {
     Blockly.Blocks[type] = {
       init() {
-        this.setColour("#C9A227");
+        this.setColour("#F6D365");
         this.setPreviousStatement(true);
         this.setNextStatement(true);
         this.setInputsInline(true);
@@ -154,7 +154,7 @@ export function registerMovementBlocks(Blockly) {
 
   Blockly.Blocks["turn_right"] = {
     init() {
-      this.setColour("#C9A227");
+      this.setColour("#F6D365");
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.setInputsInline(true);
@@ -172,7 +172,7 @@ export function registerMovementBlocks(Blockly) {
 
   Blockly.Blocks["turn_left"] = {
     init() {
-      this.setColour("#C9A227");
+      this.setColour("#F6D365");
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.setInputsInline(true);
@@ -199,7 +199,7 @@ export function registerMovementBlocks(Blockly) {
       }],
       previousStatement: null,
       nextStatement: null,
-      colour: "#C9A227",
+      colour: "#F6D365",
       inputsInline: true,
     }
   ]);

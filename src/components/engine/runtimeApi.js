@@ -116,7 +116,16 @@ const runtimeApi = {
       this.currentScenario.onStart();
     }
     callback();
+  },
+
+  changeSprite() {
+    if (this.currentScenario?.onChangeSprite) {
+      return this.currentScenario.onChangeSprite();
+    }
+    return Promise.resolve();
   }
+
+
 };
 
 export default runtimeApi;

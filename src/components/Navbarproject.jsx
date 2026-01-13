@@ -140,14 +140,14 @@ const Navbar = (props) => {
                 {session_status ? (
                   <button
                     className="navbar-dropdown-item"
-                    onClick={() => handleChangeStatus(false)}
+                    onClick={() => {handleChangeStatus(false); alert("Fermeture de la session");}}
                   >
                     Terminer la session
                   </button>
                 ) : (
                   <button
                     className="navbar-dropdown-item"
-                    onClick={() => handleChangeStatus(true)}
+                    onClick={() => {handleChangeStatus(true); alert("Activation de la session");}}
                   >
                     Activer la session
                   </button>
