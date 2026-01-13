@@ -14,9 +14,15 @@ export function registerOperationGenerators() {
     return [`(${A} - ${B})`, javascriptGenerator.ORDER_SUBTRACTION];
   };
 
-  javascriptGenerator.forBlock['op_compare'] = function (block) {
+  javascriptGenerator.forBlock['op_gt'] = function (block) {
     const A = javascriptGenerator.valueToCode(block, 'A', javascriptGenerator.ORDER_RELATIONAL) || 0;
     const B = javascriptGenerator.valueToCode(block, 'B', javascriptGenerator.ORDER_RELATIONAL) || 0;
     return [`(${A} > ${B})`, javascriptGenerator.ORDER_RELATIONAL];
+  };
+
+  javascriptGenerator.forBlock['op_lt'] = function (block) {
+    const A = javascriptGenerator.valueToCode(block, 'A', javascriptGenerator.ORDER_RELATIONAL) || 0;
+    const B = javascriptGenerator.valueToCode(block, 'B', javascriptGenerator.ORDER_RELATIONAL) || 0;
+    return [`(${A} < ${B})`, javascriptGenerator.ORDER_RELATIONAL];
   };
 }

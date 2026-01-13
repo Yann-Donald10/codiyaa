@@ -1,6 +1,5 @@
 import Cours from './Cours.png';
 import Marche from './Marche.png';
-import Codiyaa from './Codiyaa.png';
 import Default from './Default.png';
 import EcoleBas from './EcoleBas.png';
 import EcoleMid from './EcoleMid.png';
@@ -14,7 +13,6 @@ import RingWin from './RingWin.png';
 export {
     Cours,
     Marche,
-    Codiyaa,
     Default, 
     EcoleBas,
     EcoleMid,
