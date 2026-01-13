@@ -162,6 +162,34 @@ const ExecutionArea = forwardRef(({
       });
     },
 
+    moveUp(steps) {
+      return new Promise(resolve => {
+        if (!runningRef.current) return resolve();
+
+        const distance = steps * 10;
+        setSpriteState(prev => ({
+          ...prev,
+          y: prev.y - distance
+        }));
+
+        setTimeout(resolve, 2000);
+      });
+    },
+
+    moveDown(steps) {
+      return new Promise(resolve => {
+        if (!runningRef.current) return resolve();
+
+        const distance = steps * 10;
+        setSpriteState(prev => ({
+          ...prev,
+          y: prev.y + distance
+        }));
+
+        setTimeout(resolve, 2000);
+      });
+    },
+
     turnRight(angle) {
       return new Promise(resolve => {
         if (!runningRef.current) return resolve();

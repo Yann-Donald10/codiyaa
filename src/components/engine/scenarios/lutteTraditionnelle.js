@@ -1,4 +1,4 @@
-export function createTemplateScenario(runtimeApi) {
+export function createLutteTraditionnelleScenario(runtimeApi) {
   return {
     async onMoveUp(steps) {
       if (!runtimeApi.spriteRef?.isRunning?.()) return;

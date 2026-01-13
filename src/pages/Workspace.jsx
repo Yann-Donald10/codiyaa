@@ -20,6 +20,8 @@ import { javascriptGenerator } from "blockly/javascript";
 import BlocklyInterpreter from "../components/engine/interpreter";
 import runtimeApi from "../components/engine/runtimeApi";
 import { createLeveeCouleursScenario } from "../components/engine/scenarios/leveeCouleurs";
+import { createTemplateScenario } from "../components/engine/scenarios/template";
+import { createLutteTraditionnelleScenario } from "../components/engine/scenarios/lutteTraditionnelle";
 import { setupBlocklyCategoryAudio } from "../components/BlocklyCategoryAudio";
 
 
@@ -39,22 +41,18 @@ export default function WorkspacePage() {
   const [runtimeBackground, setRuntimeBackground] = useState(null);
   const scenarioRef = useRef(null);
 
+  const scenarioMapping = {
+  1: createTemplateScenario,
+  2: createLutteTraditionnelleScenario,
+  3: createLeveeCouleursScenario,
+
+  // ...autres scénarios
+};
+
 
   const setScenarioBackground = (bgKey) => {
     setRuntimeBackground(bgKey);
   };
-
-  useEffect(() => {
-    const scenario = createLeveeCouleursScenario(
-      runtimeApi,
-      setScenarioBackground
-    );
-
-    scenarioRef.current = scenario;
-    runtimeApi.setScenario(scenario);
-
-    console.log("Scénario levée de couleurs initialisé");
-  }, []);
 
   
   const executionRef = useRef(null);
@@ -171,6 +169,34 @@ export default function WorkspacePage() {
 
         const project = projectList[0];
         setProjectData(project);
+
+                // 🔥 1. Récupérer le scénario lié au projet
+        const { data: scenarioData, error: scenarioError } = await supabase
+          .from("scenarios")
+          .select("scenario_number")
+          .eq("id_scenario", project.id_scenario)
+          .single();
+
+        if (scenarioError || !scenarioData) {
+          console.error("Erreur récupération scénario");
+          return;
+        }
+
+        // 🔥 2. Choisir le JS du scénario
+        const scenarioFactory = scenarioMapping[scenarioData.scenario_number];
+
+        if (!scenarioFactory) {
+          console.error("Aucun scénario JS pour scenario_number =", scenarioData.scenario_number);
+          return;
+        }
+
+        // 🔥 3. Créer et enregistrer le scénario runtime
+        const scenarioInstance = scenarioFactory(runtimeApi, setScenarioBackground);
+        scenarioRef.current = scenarioInstance;
+        runtimeApi.setScenario(scenarioInstance);
+
+        console.log("🎯 Scénario chargé :", scenarioData.scenario_number);
+
 
         // Charger asset_project
         let assetData = { sprite: "Homme", background: "Default", x: null, y: null };
