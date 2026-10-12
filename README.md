@@ -1,4 +1,61 @@
-# Getting Started with Create React App
+# Codiyaa
+
+Codiyaa is an educational coding platform designed to help children discover programming through visual, block-based interactions and immediate visual feedback.
+
+The project aims to make coding more accessible and engaging for young learners, with a focus on multilingual learning and localization in African languages.
+
+## About the project
+
+Codiyaa is positioned between introductory visual programming tools such as ScratchJr and more advanced educational environments such as LEGO EV3.
+
+Unlike robotics platforms requiring physical hardware, Codiyaa offers a fully digital environment where children can create programs with blocks and immediately see the result of their actions.
+
+## Main objectives
+
+- Introduce children to core programming concepts
+- Provide a visual and intuitive block-based programming experience
+- Give immediate visual feedback through an interactive virtual environment
+- Support multilingual learning
+- Explore localization in African languages
+- Create an accessible and engaging introduction to coding
+
+## Key features
+
+- Visual programming interface
+- Block-based coding
+- Interactive visual feedback
+- Educational progression
+- Multilingual support
+- Child-friendly interface
+
+## Tech stack
+
+- React
+- JavaScript
+- HTML
+- CSS
+
+## Project status
+
+Prototype / work in progress.
+
+The project was initially developed in an academic context and is currently being explored further as an educational product.
+
+## Getting started
+
+This project was bootstrapped with Create React App.
+
+In the project directory, you can run:
+
+### `npm start`
+
+Runs the app in development mode.
+
+Open:
+
+http://localhost:3000
+ 
+Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
